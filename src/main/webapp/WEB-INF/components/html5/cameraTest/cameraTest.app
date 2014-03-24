@@ -5,6 +5,6 @@
   <html5:camera />
   <html5:imageList />
   <html5:camera type="file"/>
-  <html5:camera multiple="true" label="Add Photos"/>
+  <html5:camera multiple="true"/>
 
 </aura:application>
