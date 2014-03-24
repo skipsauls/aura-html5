@@ -35,13 +35,13 @@
   max-height: 232px;
   vertical-align: middle;
 
-  background-image: -moz-linear-gradient(45deg, #000 25%, transparent 25%),
-    -moz-linear-gradient(-45deg, #000 25%, transparent 25%), -moz-linear-gradient(45deg, transparent 75%, #000 75%),
-    -moz-linear-gradient(-45deg, transparent 75%, #000 75%);
-  background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.25, #000), color-stop(.25, transparent)),
-    -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #000), color-stop(.25, transparent)),
-    -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.75, transparent), color-stop(.75, #000)),
-    -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.75, transparent), color-stop(.75, #000));
+  background-image: -moz-linear-gradient(45deg, #A0A0A0 25%, transparent 25%),
+    -moz-linear-gradient(-45deg, #A0A0A0 25%, transparent 25%), -moz-linear-gradient(45deg, transparent 75%, #A0A0A0 75%),
+    -moz-linear-gradient(-45deg, transparent 75%, #A0A0A0 75%);
+  background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.25, #A0A0A0), color-stop(.25, transparent)),
+    -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #A0A0A0), color-stop(.25, transparent)),
+    -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.75, transparent), color-stop(.75, #A0A0A0)),
+    -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.75, transparent), color-stop(.75, #A0A0A0));
   -moz-background-size: 20px 20px;
   background-size: 20px 20px;
   -webkit-background-size: 20px 21px;
