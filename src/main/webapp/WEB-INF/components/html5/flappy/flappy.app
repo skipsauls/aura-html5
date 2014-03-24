@@ -1,4 +1,4 @@
-<aura:application template="html5:template">
+<aura:application template="html5:flappyTemplate">
   <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
   <style>
     * {
@@ -33,7 +33,7 @@
     showGrid="false"
     showControls="false"
     actionKeyCodes="jump:32,toggleRunning:13"
-    flappySpriteName="saasy"
+    flappySpriteName="flappy"
     staticSpritesName="static"
     backgroundURL="/img/sf_skyline_2240x256.jpg"
     columnURL="/img/column_32x32.png"

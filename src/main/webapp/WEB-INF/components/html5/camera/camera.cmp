@@ -9,7 +9,6 @@
   <aura:attribute name="webRTC" type="Boolean" default="false"/>
   <div class="container" aura:id="container">
     <ul class="{!v.multiple == true ? 'preview multiple' : 'preview'}" aura:id="preview"/>
-    
     <div class="controls">
       <aura:renderIf isTrue="{!v.type == 'file' || v.multiple == true || $Browser.isPhone == true || $Browser.isTablet == true || v.webRTC == false}">
         <aura:if isTrue="{!v.multiple}">
