@@ -5,9 +5,19 @@
      *  Necessary due to the use of the "for" attribute on the label
      *  that is being used as a proxy for the input element.
      */
-    
     var cameraId = "camera" + Date.now();
     component.setValue("v.cameraId", cameraId);
+
+    /*
+     * Check for WebRTC support
+     * This will determine which controls and features are available
+     */
+    navigator.getUserMedia = (navigator.getUserMedia ||
+      navigator.webkitGetUserMedia ||
+      navigator.mozGetUserMedia ||
+      navigator.msGetUserMedia);    
+
+    component.setValue("v.webRTC", typeof navigator.getUserMedia !== "undefined");
   },
   
   snapPhoto: function(component, event, helper) {

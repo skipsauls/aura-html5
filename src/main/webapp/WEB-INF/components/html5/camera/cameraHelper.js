@@ -109,9 +109,9 @@
         },        
         function(stream) {
           // Hide the camera button and display the shutter button
-          var cameraButton = component.find("camera").getElement();
+          var cameraButton = component.find("cameraButton").getElement();
           cameraButton.style.setProperty("display", "none");
-          var shutterButton = component.find("shutter").getElement();
+          var shutterButton = component.find("shutterButton").getElement();
           shutterButton.style.setProperty("display", "inline-block");
 
           // Keep track of the video and stream associated with component
@@ -173,9 +173,9 @@
     video.pause();
     
     // Hide the shutter button and display the camera button
-    var shutterButton = component.find("shutter").getElement();
+    var shutterButton = component.find("shutterButton").getElement();
     shutterButton.style.setProperty("display", "none");
-    var cameraButton = component.find("camera").getElement();
+    var cameraButton = component.find("cameraButton").getElement();
     cameraButton.style.setProperty("display", "inline-block");
 
     // Create a canvas to draw the video into
