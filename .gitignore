@@ -2,6 +2,6 @@ target
 .DS_Store
 .classpath
 .project
-Procfile
-system.properties
+#Procfile
+#system.properties
 .settings
