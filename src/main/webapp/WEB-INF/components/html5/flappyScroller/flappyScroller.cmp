@@ -1,0 +1,58 @@
+<aura:component extends="ui:interactive">
+  <aura:handler event="html5:spriteCommand" action="{!c.handleSpriteCommand}" />
+  <aura:handler event="html5:canvasCommand" action="{!c.handleCanvasCommand}" />
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <aura:handler name="keypress" action="{!c.handleKeypress}" />
+  <aura:handler name="click" action="{!c.handleClick}" />
+  
+  <aura:attribute name="mode" type="String" default="game"/>
+  <aura:attribute name="running" type="Boolean" default="false" />
+  <aura:attribute name="gameTitle" type="String" default="Flappy SaaSy" />
+  <aura:attribute name="gridSize" type="Integer" default="32" />
+  <aura:attribute name="showControls" type="Boolean" default="true" />
+  <aura:attribute name="showGrid" type="Boolean" default="false" />
+  <aura:attribute name="showDebug" type="Boolean" default="false" />
+  <aura:attribute name="actionKeyCodes" type="String"/>
+  <aura:attribute name="flappySpriteName" type="String" default="flappy"/>
+  <aura:attribute name="staticSpritesName" type="String" default="static"/>
+  <aura:attribute name="backgroundURL" type="String" default="/img/citybg.png"/>
+  <aura:attribute name="columnURL" type="String" default="/img/column_32x32.png"/>
+  <aura:attribute name="columnTopURL" type="String" default="/img/column_top_32x32.png"/>
+  <aura:attribute name="columnBottomURL" type="String" default="/img/column_bottom_32x32.png"/>
+  <aura:attribute name="titleImagesURL" type="String" default="/img/flappy_text_320x240.png"/>
+  
+  <div aura:id="container" class="container" tabindex="0">
+    <div aura:id="promo" class="promo"></div>
+    <aura:renderIf isTrue="{!v.showControls == true}">
+      <ui:block class="controls">
+        <ui:button press="{!c.toggleControls}" label="Hide Controls" />
+        <ui:button press="{!c.doInit}" label="Init" />
+        <ui:button press="{!c.toggleMode}" label="{!v.mode == 'game' ? 'Debug Mode' : 'Game Mode'}" />
+        <ui:button press="{!c.toggleRunning}" label="{!v.running ? 'Stop' : 'Run'}" />
+        <ui:button press="{!c.resetGame}" label="Reset Game" />
+        <ui:button press="{!c.toggleGrid}" label="{!v.showGrid ? 'Hide Grid' : 'Show Grid'}" />
+        <ui:button press="{!c.toggleDebug}" label="{!v.showDebug ? 'Hide Debug' : 'Show Debug'}" />
+        <ui:button press="{!c.reload}" label="Reload" />
+      </ui:block>
+      <aura:set attribute="else">
+        <ui:block class="controls minified">
+          <ui:button class="cp" press="{!c.toggleControls}" label="O" />
+        </ui:block>
+      </aura:set>
+    </aura:renderIf>      
+    <!--
+    <canvas aura:id="canvas" width="576" height="256">
+    -->
+    <aura:if isTrue="{!$Browser.isIOS == true}">
+      <aura:if isTrue="{!$Browser.isPhone == true}">
+        <canvas aura:id="canvas" width="512" height="384" name="iPhone"></canvas>
+        <aura:set attribute="else">
+          <canvas aura:id="canvas" width="512" height="384" name="iPad"></canvas>
+        </aura:set>
+      </aura:if>
+      <aura:set attribute="else">
+        <canvas aura:id="canvas" width="512" height="384" name="desktop"></canvas>
+      </aura:set>
+    </aura:if>
+  </div>
+</aura:component>

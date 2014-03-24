@@ -1,0 +1,13 @@
+<aura:component>
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <aura:handler event="html5:playSound" action="{!c.handlePlaySound}" /> 
+  <aura:attribute name="name" type="String" description="The name of the sample, which may differ from the src."/>
+  <aura:attribute name="src" type="String" description="The relative URL for the sample to load."/>
+  <aura:attribute name="startTime" type="Decimal" default="0" description="The time to start playing."/>
+  <aura:attribute name="endTime" type="Decimal" default="-1" description="The time to end playing. - TBD"/>
+  <aura:attribute name="duration" type="Decimal" default="-1" description="The total time to play. - TBD"/>
+  <aura:attribute name="playbackRate" type="Decimal" default="1" description="The rate of playback, where 1 is 100%."/>
+  <aura:attribute name="count" type="Decimal" default="1" description="The number of sounds to create. More are useful for playing simultaneously."/>
+  <aura:attribute name="debug" type="Boolean" default="false" description="Enables the debug mode to show controls and feedback."/>
+</aura:component>
+

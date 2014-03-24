@@ -1,0 +1,6 @@
+<aura:component description="A list that responds to addImage events.">
+  <aura:handler event="html5:addImage" action="{!c.handleAddImage}" />
+  <div class="container">
+    <ul aura:id="list" class="list"/>
+  </div> 
+</aura:component>

@@ -1,0 +1,50 @@
+.THIS.container {
+  width: 320px;
+  height: 480px;
+  display: inline-block;
+  vertical-align: top;
+  background: #C0C0C0;
+  border: 1px solid #606060;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.THIS .list {
+  margin: 4px auto;
+  width: 312px;
+  height: 232px;
+  line-height: 232px;
+  text-align: center;
+  background: transparent;
+  outline: 0px none;
+  list-style: none;
+  padding: 0px;
+}
+
+.THIS .list li {
+  display: block;
+  border-bottom: 1px solid #606060;
+  max-width: 312px;
+  max-height: 232px;
+  line-height: 40px;
+  padding: 2px 0;
+}
+
+.THIS .list img {
+  max-width: 312px;
+  max-height: 232px;
+  vertical-align: middle;
+
+  background-image: -moz-linear-gradient(45deg, #000 25%, transparent 25%),
+    -moz-linear-gradient(-45deg, #000 25%, transparent 25%), -moz-linear-gradient(45deg, transparent 75%, #000 75%),
+    -moz-linear-gradient(-45deg, transparent 75%, #000 75%);
+  background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.25, #000), color-stop(.25, transparent)),
+    -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #000), color-stop(.25, transparent)),
+    -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.75, transparent), color-stop(.75, #000)),
+    -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.75, transparent), color-stop(.75, #000));
+  -moz-background-size: 20px 20px;
+  background-size: 20px 20px;
+  -webkit-background-size: 20px 21px;
+  background-position: 0 0, 10px 0, 10px -10px, 0px 10px;
+
+}

@@ -1,0 +1,80 @@
+.THIS.container {
+  margin: 0px auto;
+  width: 512px;
+  height: 384px;
+}
+
+.THIS .promo {
+  background: transparent url(/img/sf_aura_white_320x100.png) no-repeat center center;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.THIS .fade-out {
+  visibility: hidden;
+}
+
+.THIS canvas {
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  position: relative;
+}
+
+.THIS *:focus {
+  outline: none;
+}
+
+.THIS .controls {
+  background: #C0C0C0;
+  display: block;
+  left: 0;
+  opacity: 0.75;
+  position: absolute;
+  top: 0px;
+  width: 200px;
+  padding: 4px;
+  z-index: 10;
+}
+
+.THIS .controls.minified {
+  background: transparent;
+  border-radius: 0px;
+  width: 40px;
+  height: 40px;
+  padding: 0px;
+}
+
+.THIS .controls .uiButton {
+  width: 100%;
+  margin: 2px 0;
+  display: inline-block;
+  text-overflow: ellipsis;
+}
+
+.THIS .controls .cp {
+  background: transparent;
+  color: none;
+  border: 0px none;
+  border-radius: 0px;
+  outline: 0px none;  
+  width: 40px;
+  height: 40px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.THIS .controls .cp:hover {
+  background: transparent;
+  color: none;
+}
+
+.THIS .controls .cp  span.label {
+  visibility: hidden;
+}

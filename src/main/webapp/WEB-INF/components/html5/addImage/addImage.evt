@@ -1,0 +1,11 @@
+<aura:event type="APPLICATION">
+	<aura:attribute name="name" type="String" description=""/>
+	<aura:attribute name="src" type="String" description=""/>
+	<aura:attribute name="type" type="String" description=""/>
+	<aura:attribute name="size" type="Long" description=""/>
+	<aura:attribute name="timestamp" type="Long" description=""/>
+	<aura:attribute name="width" type="Long" description=""/>
+	<aura:attribute name="height" type="Long" description=""/>
+	<aura:attribute name="length" type="Long" description=""/>
+	<aura:attribute name="dataURL" type="String" description=""/>
+</aura:event>

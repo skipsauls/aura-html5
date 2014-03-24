@@ -1,0 +1,7 @@
+<aura:event type="APPLICATION">
+	<aura:attribute name="canvas" type="Object"/>
+	<aura:attribute name="ctx" type="Object"/>
+	<aura:attribute name="name" type="String"/>
+	<aura:attribute name="command" type="String"/>
+	<aura:attribute name="args" type="Object"/>
+</aura:event>

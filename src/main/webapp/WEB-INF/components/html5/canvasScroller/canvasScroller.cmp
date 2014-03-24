@@ -1,0 +1,17 @@
+<aura:component abstract="true">
+  <aura:handler event="html5:spriteCommand" action="{!c.handleSpriteCommand}" />
+  <aura:attribute name="running" type="Boolean" default="false"/>
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <aura:handler event="html5:canvasCommand" action="{!c.handleCanvasCommand}" />
+  <ui:block>
+    <ui:button press="{!c.toggleRunning}" label="{!v.running ? 'Stop' : 'Run'}" />
+    <ui:button press="{!c.addSprites}" label="Add Sprites" />
+    <ui:button press="{!c.moveLeft}" label="&#8592;" accessKey="A"/>
+    <ui:button press="{!c.moveRight}" label="&#8594;" />
+    <ui:button press="{!c.moveUp}" label="&#8593;" />
+    <ui:button press="{!c.moveDown}" label="&#8595;" />
+  </ui:block>
+  <canvas aura:id="canvas" width="600" height="240" onkeydown="{!c.moveSprite}" tabindex="1">
+
+  </canvas>
+</aura:component>

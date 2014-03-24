@@ -1,0 +1,7 @@
+<aura:component>
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <aura:handler event="html5:canvasCommand" action="{!c.handleCanvasCommand}" />
+
+  <ui:button press="{!c.test}" label="Test" />
+  <canvas aura:id="paint_area"></canvas>
+</aura:component>

@@ -1,0 +1,52 @@
+<aura:component isTemplate="true" extends="aura:template">
+  <aura:set attribute="title" value="Aura • Camera" />
+
+  <aura:set attribute="extraMetaTags">
+    <!-- 
+    -->
+    <aura:if isTrue="{!$Browser.isIOS == true}">
+      <meta name="apple-mobile-web-app-capable" content="yes"/>
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    </aura:if>
+    <aura:if isTrue="{!$Browser.isPhone == true}">
+      <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width, minimal-ui”"/>
+
+      <!-- 
+      <meta name="viewport" width="device-width" content="target-densitydpi=device-dpi" />
+      <meta name="viewport" content="initial-scale=0.75, maximum-scale=1.0, minimum-scale=0.75, user-scalable=no, width=device-width, minimal-ui”"/>
+      -->
+      <aura:set attribute="else">
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width, minimal-ui”"/>
+        <!-- 
+        <meta name="viewport" width="device-width" content="target-densitydpi=device-dpi" />
+        -->
+        </aura:set>
+    </aura:if>
+  </aura:set>
+
+  <aura:set attribute="extraStyleTags">
+    <!--
+    <link rel="stylesheet" href="/bower_components/todomvc-common/base.css" />
+    -->    
+    <style>
+      body {
+        width: auto;
+      }
+    </style>
+  </aura:set>
+
+  <aura:set attribute="extraScriptTags">
+    <script src="/js/fastclick.js"></script>
+  </aura:set>
+
+  <aura:set attribute="auraInitBlock">
+    <script>
+      document.addEventListener("touchmove", function (e) { e.preventDefault(); }, false);
+      
+      // Awesome FastClick to remove 300ms delay on touch devices
+      // https://github.com/ftlabs/fastclick
+      FastClick.attach(document.body);
+      
+    </script>
+  </aura:set>
+</aura:component>
