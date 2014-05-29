@@ -1,0 +1,232 @@
+.THIS {
+  background: #FFFFFF;
+}
+
+.THIS.panel {
+  width: 384px;
+  height: 512px;
+  background: #FAF8EF;
+  margin: 0px auto;
+  padding: 0;
+  text-align: center;
+  font-family: Arial,Helvetica,sans-serif;  
+}
+
+.THIS.panel.hidden {
+  display: none;  
+}
+
+.THIS.panel.visible {
+  display: block;
+}
+
+.THIS.panel.splash {
+  background: #FFFFFF;
+}
+
+.THIS.panel.splash .logo {
+  width: 384px;
+  height: 512px;
+  background: #FFFFFF url(/img/sf_aura_white_320x100.jpg) no-repeat center center;
+  opacity: 0;
+}
+
+
+.THIS.panel.main {
+}
+
+.THIS.panel.options {
+
+}
+
+.THIS .info {
+  width: auto;
+  margin: 0;
+  padding: 10px 20px;
+  text-align: right;
+}
+
+.THIS .score_box {
+  display: inline-block;
+  background: #BBADA0;
+  border-radius: 5px;
+  width: 96px;
+  height: 56px;
+  margin-left: 8px;
+  text-align: center;
+}
+
+.THIS .score_box .label {
+  color: #EDE2d4;
+  margin: 8px 0 0;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.THIS .score_box .score {
+  color: #FFFFFF;
+  margin: 10px 0 0;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.THIS button.small {
+  display: inline-block;
+  background: #ED995B;
+  border-radius: 3px;
+  width: 96px;
+  height: 16px;
+  padding: 0;
+  margin: 5px 0 0 8px;
+  text-align: center;
+  font-size: 8px;
+  color: #FFFFFF;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+.THIS button.small:hover {
+  background: #ED995B;  
+}
+
+.THIS button.small .label {
+  color: #FFFFFF;  
+}
+
+.THIS button.small:hover .label {
+  text-shadow: none;
+}
+
+.THIS .grid {
+  display: inline-block;
+  background: #BBADA0;
+  border: 5px solid #BBADA0;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 0px;
+  line-height: 0px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: move;
+  position: relative;
+}
+
+.THIS .row {
+  margin: 0px;
+  padding: 0px;
+}
+
+.THIS .cell {
+  display: inline-block;
+  width: 74px;
+  height: 74px;
+  line-height: 74px;
+  color: #FFFFFF;
+  font-size: 36px;
+  font-weight: bold;
+  border: 5px solid #BBADA0;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+  background: #CCC0B4;
+}
+
+.THIS .cell.logo {
+  border: 0px none; 
+  float: left;
+  margin: 0;
+}
+
+.THIS .cell > span {
+  display: block;
+  /*
+  position: absolute;
+  width: 74px;
+  height: 74px;
+  */
+}
+
+.THIS .cell > span.val2 {
+  background: #EEE4DA;
+  color: #776E65;
+}
+
+.THIS .cell > span.val4 {
+  background: #EDE0C8;
+  color: #776E65;
+}
+
+.THIS .cell > span.val8 {
+  background: #F2B179;
+}
+
+.THIS .cell > span.val16 {
+  background: #EC8D54;
+}
+
+.THIS .cell > span.val32 {
+  background: #F67C5F;
+}
+
+.THIS .cell > span.val64 {
+  background: #EA5937;
+}
+
+.THIS .cell > span.val128 {
+  background: #F3D86B;
+}
+
+.THIS .cell > span.val256 {
+  background: #F1D04B;
+}
+
+.THIS .cell > span.val512 {
+  background: #E4C02A;
+}
+
+.THIS .cell > span.val1024 {
+  background: #E8C24E;
+  font-size: 30px;
+}
+
+.THIS .cell > span.val2048 {
+  background: #ECC400;
+  font-size: 30px;
+}
+
+.THIS .cell > span.val4096 {
+  background: #B79228;
+  font-size: 30px;
+}
+
+.THIS .cell > span.slide {
+  transition: all 1.0s ease-in-out;
+}
+
+/* make keyframes that tell the start state and the end state of our object */
+@-webkit-keyframes fadeIn { from { opacity: 0; transform: scale(0.2); } to { opacity: 1; transform: scale(1.0); } }
+@-moz-keyframes fadeIn { from { opacity: 0; transform: scale(0.2); } to { opacity: 1; transform: scale(1.0); } }
+@keyframes fadeIn { from { opacity: 0; transform: scale(0.2); } to { opacity: 1; transform: scale(1.0); } }
+ 
+.THIS.fadein, .THIS .fadein {
+  opacity: 0;
+  -webkit-animation: fadeIn ease-in 1;
+  -moz-animation: fadeIn ease-in 1;
+  animation: fadeIn ease-in 1;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-duration: 0.3s;
+  -moz-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+}
+
+.THIS .fadein.new {
+  -webkit-animation-delay: 0.0s;
+  -moz-animation-delay: 0.0s;
+  animation-delay: 0.0s;
+}

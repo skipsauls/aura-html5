@@ -1,0 +1,4 @@
+<aura:component>
+  <h1>Blaster</h1>
+  <ui:button press="{!c.blast}" label="Blast"/>
+</aura:component>

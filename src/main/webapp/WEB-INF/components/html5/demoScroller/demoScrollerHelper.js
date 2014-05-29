@@ -41,30 +41,6 @@
     this.animationFrame = null;
     this.canvas = null;
     this.ctx = null;
-    this.debugInfo = {};
-    this.debugSize = {
-      w: 200,
-      h: 200
-    };
-    this.score = 0;
-    this.frameStats = {
-      count: 0,
-      fps: 0,
-      oldtime: 0,
-      lastUpdate: 0
-    };
-
-    this.actionKeyCodeMap = {
-      setup: 115,
-      resetGame: 114,
-      jump: 32,
-      toggleRunning: 15,
-      toggleDebug: 27,
-      toggleGrid: 8
-    };
-
-    // Generated
-    this.keyCodeActionMap = {};
 
     this.containerSizes = {
       desktop: {
@@ -89,103 +65,58 @@
   },
 
   init: function(component, event) {
-
+    console.warn("demoScrollerHelper.init");
     this.setupStructs();
     this.component = component;
     this.setupAnimationFrame();
-    this.setupKeyCodeActionMap(component);
-    var self = this;
-    setTimeout(function() {
 
-      var container = component.find("container").getElement();
-      console.warn("container: ", container);
-      var promo = component.find("promo").getElement();
+    var container = component.find("container").getElement();
+    console.warn("container: ", container);
+    
+    var canvas = component.find("canvas").getElement();
+    console.warn("canvas: ", canvas);
 
-      $A.util.addClass(promo, "fade-out");
-      $A.util.addClass(document.body, "fade-to-black");
-      
-      var canvas = component.find("canvas").getElement();
-      console.warn("canvas: ", canvas);
+    // Using the canvas name to get the client type...
+    // Sketchy?
+    var client = canvas.name || "desktop";
 
-      // Using the canvas name to get the client type...
-      // Sketchy?
-      var client = canvas.name || "desktop";
-
-      // Special case for iPhone5 screen
-      if (client === "iPhone" && (window.innerHeight === 568 || window.innerWidth === 568)) {
-        client = "iPhone5";
-      }
-
-      console.warn("client: ", client);
-
-      container.style.width = self.containerSizes[client].w + "px";
-      container.style.height = self.containerSizes[client].h + "px";
-
-      console.warn("container size: ", container.style.width, container.style.height);
-
-      console.warn("window size: ", window.innerWidth, window.innerHeight);
-
-      self.debugInfo.windowSize = window.innerWidth + ", " + window.innerHeight;
-
-      if (window.innerWidth < window.innerHeight) {
-        var d = canvas.width;
-        canvas.width = canvas.height;
-        canvas.height = d;
-
-        var s = container.style.width;
-        container.style.width = container.style.height;
-        container.style.height = s;
-      }
-
-      console.warn("canvas size: ", canvas.width, canvas.height);
-      console.warn("container size: ", container.width, container.height);
-
-      // Set scaling to 1 as this is a fixed-size grid
-      var sx = 1; // (window.innerWidth / canvas.width);
-      var sy = 1; // (window.innerHeight / canvas.height);
-
-      self.fieldScaling.x = sx;
-      self.fieldScaling.y = sy;
-      self.debugInfo.scaling = self.fieldScaling.x + ", " + self.fieldScaling.y;
-
-
-      self.setup(component, event);
-
-    }, 2000);
-  },
-
-  toggleControls: function(component, event) {
-    this.showControls = !component.get("v.showControls");
-    component.setValue("v.showControls", this.showControls);
-  },
-
-  toggleGrid: function(component, event) {
-    this.showGrid = !component.get("v.showGrid");
-    component.setValue("v.showGrid", this.showGrid);
-  },
-
-  toggleDebug: function(component, args) {
-    this.showDebug = !component.get("v.showDebug");
-    component.setValue("v.showDebug", this.showDebug);
-  },
-
-  toggleMode: function(component, args) {
-    this.mode = component.get("v.mode");
-    this.mode = this.mode === "game" ? "debug" : "game";
-    component.setValue("v.mode", this.mode);
-    this.debugInfo.mode = this.mode;
-  },
-
-  toggleRunning: function(component, event) {
-    this.running = component.get("v.running");
-    if (this.running) {
-      this.endGame(component);
-    } else {
-      this.startGame(component);
-      //this.showControls = !component.get("v.showControls");
-      //component.setValue("v.showControls", this.showControls);
+    // Special case for iPhone5 screen
+    if (client === "iPhone" && (window.innerHeight === 568 || window.innerWidth === 568)) {
+      client = "iPhone5";
     }
-    component.setValue("v.running", !this.running);
+
+    console.warn("client: ", client);
+
+    container.style.width = this.containerSizes[client].w + "px";
+    container.style.height = this.containerSizes[client].h + "px";
+
+    console.warn("container size: ", container.style.width, container.style.height);
+
+    console.warn("window size: ", window.innerWidth, window.innerHeight);
+
+    if (window.innerWidth < window.innerHeight) {
+      var d = canvas.width;
+      canvas.width = canvas.height;
+      canvas.height = d;
+
+      var s = container.style.width;
+      container.style.width = container.style.height;
+      container.style.height = s;
+    }
+
+    console.warn("canvas size: ", canvas.width, canvas.height);
+    console.warn("container size: ", container.style.width, container.style.height);
+    console.warn("container size: ", container.clientWidth, container.clientHeight);
+
+    // Set scaling to 1 as this is a fixed-size grid
+    var sx = 1; // (window.innerWidth / canvas.width);
+    var sy = 1; // (window.innerHeight / canvas.height);
+
+    this.fieldScaling.x = sx;
+    this.fieldScaling.y = sy;
+
+    this.setup(component, event);
+    
   },
 
   // Adapted from:
@@ -220,29 +151,45 @@
       };
   },
 
-  setupKeyCodeActionMap: function(component) {
-    var actionKeyCodes = component.get("v.actionKeyCodes");
-    var actionKeyPairs = actionKeyCodes.split(",");
-    for (var i = 0; i < actionKeyPairs.length; i++) {
-      var p = actionKeyPairs[i].split(":");
-      var action = p[0];
-      var keyCode = p[1];
-      this.actionKeyCodeMap[action] = keyCode;
-    }
-
-    console.warn("this.actionKeyCodeMap: ", this.actionKeyCodeMap);
-
-    // Generate keyCodeActionMap - Need to check for collisions!
-    this.keyCodeActionMap = {};
-    for ( var action in this.actionKeyCodeMap) {
-      this.keyCodeActionMap[this.actionKeyCodeMap[action]] = action;
-    }
-
-    console.warn("this.keyCodeActionMap: ", this.keyCodeActionMap);
-  },
-
   setup: function(component, event) {
+
+    var canvas = component.find("canvas").getElement();
+    var ctx = canvas.getContext("2d");
+
+    this.scrollImg = new Image();
+    this.scrollImg.src = component.get("v.backgroundURL");
+    this.canvasWidth = canvas.clientWidth;
+    this.canvasHeight = canvas.clientHeight;
+    this.scrollVal = 1;
+    this.speed = 0.5;
+    this.gridSpeed = 2;
+
+    var self = this;
+    this.scrollImg.onload = function() {
+      console.warn("loadImage");
+      self.imgWidth = self.scrollImg.width;
+      self.imgHeight = self.scrollImg.height;
+      console.warn("self.canvasWidth: ", self.canvasWidth);
+      console.warn("self.canvasHeight: ", self.canvasHeight);
+      console.warn("self.imgWidth: ", self.imgWidth);
+      console.warn("self.imgHeight: ", self.imgHeight);
+      console.warn("self.fieldSize: ", self.fielSize);
+
+      self.scrollVal = self.imgWidth - 1;
+      
+      self.imgRatio = self.fieldSize.h / self.imgHeight;
+      console.warn("self.imgRatio: ", self.imgRatio);
+      self.speed = 1 / self.imgRatio;
+      
+      self.startAnimation(component);
+    }    
+    
+    
+    
+    return;
+    
     this.resetGame();
+    
     this.addSprites(component);
     
     //this.scrollVal = 0;
@@ -269,7 +216,7 @@
     this.scrollImg.src = component.get("v.backgroundURL");
     this.canvasWidth = canvas.width;
     this.canvasHeight = canvas.height;
-    //his.scrollVal = 0;
+    this.scrollVal = 1;
     this.speed = 0.5;
     this.gridSpeed = 2;
 
@@ -293,6 +240,8 @@
       console.warn("self.imgHeight: ", self.imgHeight);
       console.warn("self.fieldSize: ", self.fielSize);
 
+      self.scrollVal = self.imgWidth - 500;
+
       self.imgRatio = self.fieldSize.h / self.imgHeight;
       console.warn("self.imgRatio: ", self.imgRatio);
       self.speed = 1 / self.imgRatio;
@@ -313,6 +262,75 @@
 
   },
   
+  // Custom loader for flappy
+  handleSpriteCommand: function(component, params) {
+    console.warn("canvasScrollerHelper.handleSpriteCommand: ", params);
+    
+    if (params.command === "add") {
+      var sprite = params.args;
+      sprite.display = false;
+      this.sprites[sprite.name] = sprite;
+    }
+  },
+  
+  startAnimation: function(component) {
+    var canvas = component.find("canvas").getElement();
+    console.warn("canvas: ", canvas);
+    var ctx = canvas.getContext("2d");
+    console.warn("ctx: ", ctx);
+
+    var self = this;
+    self.frameStats = {};
+    self.frameStats.oldtime = 0;
+    self.frameStats.lastUpdate = 0;
+    function gameLoop(time) {
+      self.frameStats.fps = Math.round(1000 / (time - self.frameStats.oldtime));
+      self.frameStats.oldtime = time;
+      var s = Math.floor(time / 500);
+      if (self.frameStats.lastUpdate != s) {
+        self.frameStats.lastUpdate = s;
+      }
+
+      self.animationFrame = window.requestAnimationFrame(gameLoop);
+      self.render(null, canvas, ctx);
+      if (self.scrollVal-- <= 100) {
+        self.scrollVal = self.imgWidth - 1;
+      };
+
+    }
+    gameLoop();
+  },
+  
+  stopAnimation: function(component) {
+    window.cancelAnimationFrame(this.animationFrame);
+  },
+  
+  render: function(component, canvas, ctx) {
+    
+    if (ctx.globalAlpha < 1) {
+      ctx.globalAlpha += 0.01;
+    }
+    ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+
+    this.drawBackground(component, canvas, ctx);
+    
+  },
+  
+  drawBackground: function(component, canvas, ctx) {
+    ctx.save();
+    ctx.scale(this.imgRatio, 1);
+    ctx.drawImage(this.scrollImg, this.imgWidth - this.scrollVal, 0, this.scrollVal, this.imgHeight, 0, 0, this.scrollVal, this.canvasHeight);
+    ctx.drawImage(this.scrollImg, this.scrollVal, 0, this.imgWidth, this.canvasHeight);
+    ctx.restore();
+  },
+
+  drawSprites: function(component, canvas, ctx)
+    var spriteEvent = $A.get("e.html5:spriteEvent");
+     spriteEvent.setParams({name:name}).fire();    
+     spriteEvent.setParams({canvas: canvas, ctx: ctx}).fire();    
+},
+  
+
   playSound: function(name) {
     var playSoundEvent = $A.get("e.html5:playSound");
     playSoundEvent.setParams({name:name}).fire();    
@@ -346,70 +364,6 @@
     this.gameStep = "intro";
   },
 
-  playIntro: function(component, event) {
-    this.gridSize = 128;
-    var sprite = this.sprites[this.flappySpriteName];
-    var midY = (this.canvasHeight - sprite.bounds.h) / 2;
-    sprite.bounds.y = midY;
-    sprite.dest.y = midY - this.gridSize * 1;
-    this.startAnimation(component);
-    this.showControls = false;
-    component.setValue("v.showControls", this.showControls);    
-  },
-
-  startGame: function(component, event) {
-    this.gridSize = component.get("v.gridSize"); //32;
-    this.gamePosition = 0;//-8;
-    this.gameStep = "game";
-    this._collisions = {};
-    this.score = 0;
-    
-    var sprite = this.sprites[this.flappySpriteName];
-    var midY = (this.canvasHeight - sprite.bounds.h) / 2;
-    sprite.bounds.y = midY;
-    sprite.dest.y = midY - this.gridSize * 1;
-    
-    //this.startAnimation(component);
-    this.showControls = false;
-    component.setValue("v.showControls", this.showControls);    
-  },
-  
-  endGame: function(component, canvas, ctx) {
-    this.gameStep = "ending";
-    this.gamePosition -= 1;
-    //this.gridPosition -= 1;
-  },
-  
-  gameOver: function(component, canvas, ctx) {
-    this.gameStep = "end";
-    window.cancelAnimationFrame(this.animationFrame);
-  },
-  
-  startAnimation: function(component) {
-    var canvas = component.find("canvas").getElement();
-    var ctx = canvas.getContext("2d");
-
-    var self = this;
-    self.frameStats.oldtime = 0;
-    self.frameStats.lastUpdate = 0;
-    function gameLoop(time) {
-      self.frameStats.fps = Math.round(1000 / (time - self.frameStats.oldtime));
-      self.frameStats.oldtime = time;
-      var s = Math.floor(time / 500);
-      if (self.frameStats.lastUpdate != s) {
-        self.debugInfo.fps = self.frameStats.fps;
-        self.frameStats.lastUpdate = s;
-      }
-
-      self.animationFrame = window.requestAnimationFrame(gameLoop);
-      self.render(null, self.canvas, self.ctx);
-    }
-    gameLoop();
-  },
-
-  stopAnimation: function(component) {
-    window.cancelAnimationFrame(this.animationFrame);
-  },
 
   checkBitmapCollision: function(imageData1, imageData2, length) {
     var p1, p2;
@@ -443,7 +397,7 @@
     return imageData3;
   },
 
-  render: function(component, canvas, ctx) {
+  _render: function(component, canvas, ctx) {
     
     if (ctx.globalAlpha < 1) {
       ctx.globalAlpha += 0.01;
@@ -577,13 +531,6 @@
   /*
    * Draws the background, very simple scroller
    */
-  drawBackground: function(canvas, ctx) {
-    ctx.save();
-    ctx.scale(this.imgRatio, 1);
-    ctx.drawImage(this.scrollImg, this.imgWidth - this.scrollVal, 0, this.scrollVal, this.imgHeight, 0, 0, this.scrollVal, this.canvasHeight);
-    ctx.drawImage(this.scrollImg, this.scrollVal, 0, this.imgWidth, this.canvasHeight);
-    ctx.restore();
-  },
 
   /* Adapted from Google's Closure Library
    * http://docs.closure-library.googlecode.com/git/closure_goog_math_rect.js.source.html
@@ -1118,16 +1065,6 @@
     this.jump(component, event);
   },
 
-  // Custom loader for flappy
-  handleSpriteCommand: function(component, params) {
-    console.warn("canvasScrollerHelper.handleSpriteCommand: ", params);
-    console.warn("this.flappySpriteName: ", this.flappySpriteName);
-    if (params.command === "add") {
-      var sprite = params.args;
-      sprite.display = false;
-      this.sprites[sprite.name] = sprite;
-    }
-  },
 
   executeCanvasCommand: function(component, params) {
     // console.warn("executeCanvasCommand: ", params);

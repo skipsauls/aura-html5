@@ -1,14 +1,15 @@
 <aura:component template="html5:template">
   <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
-  <aura:attribute name="addPictureLabel" type="String" default="Add Picture"/>
-  <aura:attribute name="addPicturesLabel" type="String" default="Add Pictures"/>
-  <aura:attribute name="takePhotoLabel" type="String" default="Take Photo"/>
-  <aura:attribute name="type" type="String" default="camera" description="Sets the type to camera or file"/>
-  <aura:attribute name="multiple" type="Boolean" default="false"/>
-  <aura:attribute name="cameraId" type="String" default="camera"/>
-  <aura:attribute name="webRTC" type="Boolean" default="false"/>
+  <aura:registerEvent name="addPicture" type="html5:addImage" />
+  <aura:attribute name="addPictureLabel" type="String" default="Add Picture" />
+  <aura:attribute name="addPicturesLabel" type="String" default="Add Pictures" />
+  <aura:attribute name="takePhotoLabel" type="String" default="Take Photo" />
+  <aura:attribute name="type" type="String" default="camera" description="Sets the type to camera or file" />
+  <aura:attribute name="multiple" type="Boolean" default="false" />
+  <aura:attribute name="cameraId" type="String" default="camera" />
+  <aura:attribute name="webRTC" type="Boolean" default="false" />
   <div class="container" aura:id="container">
-    <ul class="{!v.multiple == true ? 'preview multiple' : 'preview'}" aura:id="preview"/>
+    <ul class="{!v.multiple == true ? 'preview multiple' : 'preview'}" aura:id="preview" />
     <div class="controls">
       <aura:renderIf isTrue="{!v.type == 'file' || v.multiple == true || $Browser.isPhone == true || $Browser.isTablet == true || v.webRTC == false}">
         <aura:if isTrue="{!v.multiple}">
@@ -21,7 +22,7 @@
         </aura:if>
         <aura:set attribute="else">
           <div class="shutter" aura:id="shutterButton">
-            <button onclick="{!c.snapPhoto}"/>
+            <button onclick="{!c.snapPhoto}" />
           </div>
           <button class="camera" aura:id="cameraButton" id="{!v.cameraId}" onclick="{!c.enableCamera}">{!v.takePhotoLabel}</button>
         </aura:set>

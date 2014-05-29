@@ -1,0 +1,10 @@
+<aura:component>
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+  
+  <aura:attribute name="test" type="Object"/>
+  <div>test: {!v.test}</div>
+  <div>v.test.foo: <ui:outputText value="{!v.test.foo}"/></div>
+  <h1>Sink</h1>
+  <ui:button press="{!c.doSetup}" label="Setup"/>
+</aura:component>

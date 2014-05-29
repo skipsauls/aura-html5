@@ -1,0 +1,23 @@
+<aura:component>
+
+  <html5:demoScroller
+    backgroundURL="/img/sf_skyline_2240x256.jpg"
+  />
+  
+  <html5:sprite
+    aura:id="saasy"
+    name="saasy"
+    type="animated"
+    imageURL="/img/saasy_sprites_270x90.png"
+    frames="3"
+    fps="12"
+  />
+  
+  <html5:sound
+    name="flap"
+    src="/mp3/Shh.mp3"
+    startTime="0.5"
+    count="4"
+  />
+
+</aura:component>

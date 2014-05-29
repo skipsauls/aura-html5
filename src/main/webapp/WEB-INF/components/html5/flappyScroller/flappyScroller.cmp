@@ -1,10 +1,11 @@
-<aura:component extends="ui:interactive">
+<aura:component>
   <aura:handler event="html5:spriteCommand" action="{!c.handleSpriteCommand}" />
   <aura:handler event="html5:canvasCommand" action="{!c.handleCanvasCommand}" />
   <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <!--
   <aura:handler name="keypress" action="{!c.handleKeypress}" />
   <aura:handler name="click" action="{!c.handleClick}" />
-  
+  -->
   <aura:attribute name="mode" type="String" default="game"/>
   <aura:attribute name="running" type="Boolean" default="false" />
   <aura:attribute name="gameTitle" type="String" default="Flappy SaaSy" />
@@ -21,7 +22,7 @@
   <aura:attribute name="columnBottomURL" type="String" default="/img/column_bottom_32x32.png"/>
   <aura:attribute name="titleImagesURL" type="String" default="/img/flappy_text_320x240.png"/>
   
-  <div aura:id="container" class="container" tabindex="0">
+  <div aura:id="container" class="container" tabindex="0" onclick="{!c.handleClick}">
     <div aura:id="promo" class="promo"></div>
     <aura:renderIf isTrue="{!v.showControls == true}">
       <ui:block class="controls">

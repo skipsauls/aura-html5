@@ -20,6 +20,17 @@
     component.setValue("v.webRTC", typeof navigator.getUserMedia !== "undefined");
   },
   
+  foo: function(component, event, helper) {
+    //var addImageEvent = $A.get("e.html5:addImage");
+    var addImageEvent = component.getEvent("addPicture");
+    if  (addImageEvent) {
+      //var pressEvent = cmp.getEvent("press");
+      //pressEvent.setParams({"domEvent": event});
+      //pressEvent.fire();
+      addImageEvent.setParams({name: "foo"}).fire();  
+    }    
+  },
+  
   snapPhoto: function(component, event, helper) {
     helper.snapPhoto(component, event);
   },

@@ -1,0 +1,27 @@
+<aura:component>
+  <aura:handler event="html5:spriteCommand" action="{!c.handleSpriteCommand}" />
+  <aura:handler event="html5:canvasCommand" action="{!c.handleCanvasCommand}" />
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <!--
+  <aura:handler name="keypress" action="{!c.handleKeypress}" />
+  <aura:handler name="click" action="{!c.handleClick}" />
+  -->
+  <aura:attribute name="mode" type="String" default="game"/>
+  <aura:attribute name="gridSize" type="Integer" default="32" />
+  <aura:attribute name="actionKeyCodes" type="String"/>
+  <aura:attribute name="backgroundURL" type="String" default="/img/citybg.png"/>
+  
+  <div aura:id="container" class="container" tabindex="0" onclick="{!c.handleClick}">
+    <aura:if isTrue="{!$Browser.isIOS == true}">
+      <aura:if isTrue="{!$Browser.isPhone == true}">
+        <canvas aura:id="canvas" width="512" height="384" name="iPhone"></canvas>
+        <aura:set attribute="else">
+          <canvas aura:id="canvas" width="512" height="384" name="iPad"></canvas>
+        </aura:set>
+      </aura:if>
+      <aura:set attribute="else">
+        <canvas aura:id="canvas" width="512" height="384" name="desktop"></canvas>
+      </aura:set>
+    </aura:if>
+  </div>
+</aura:component>

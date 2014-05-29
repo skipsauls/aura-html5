@@ -2,17 +2,8 @@
   /*
    * Adapted from http://davidwalsh.name/browser-camera Thanks Dave Walsh!
    */
-  toggleWebcam: function(component, event) {
-
-  },
-
-  snapPhoto: function(component, event) {
-
-  },
   
   previewPhoto: function(component, photo) {
-    var spriteCommandEvent = $A.get("e.html5:spriteCommand");
-    console.warn("spriteCommandEvent: ", spriteCommandEvent);
     
     var multiple = component.get("v.multiple");
     var preview = component.find("preview").getElement();
@@ -29,8 +20,9 @@
       preview.appendChild(item);
       
       // Fire event to allow others to consume the new image
-      var addImageEvent = $A.get("e.html5:addImage");
-      if  (addImageEvent) {
+      var addImageEvent = component.getEvent("addPicture");
+
+      if (addImageEvent) {
         addImageEvent.setParams(photo).fire();  
       }
     }

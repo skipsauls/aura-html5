@@ -1,0 +1,68 @@
+<aura:component>
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <div class="panel splash visible" aura:id="splash" name="splash">
+    <div class="logo fadein"></div>
+  </div>
+  <div class="panel options hidden" aura:id="options" name="options">
+    <ui:button press="{!c.resume}" label="RESUME"/>
+    <ui:button press="{!c.start}" label="START"/>
+    <ui:button press="{!c.help}" label="HELP"/>
+  </div>
+  <div class="panel main hidden" aura:id="main" name="main">
+    <div class="info">
+      <div class="cell logo">
+        <span aura:id="logo" class="val2048">2048</span>
+      </div>
+      <div class="score_box">
+        <div class="label">SCORE</div>
+        <div aura:id="score" class="score">0</div>
+      </div>
+      <div class="score_box">
+        <div class="label">BEST</div>
+        <div aura:id="best" class="score">0</div>
+      </div>
+      <ui:button class="small" press="{!c.options}" label="OPTIONS"/>
+      <ui:button class="small" press="{!c.leaderboard}" label="LEADERBOARD"/>
+    </div>
+    <div
+      aura:id="grid"
+      class="grid"
+      tabindex="0"
+      ontouchstart="{!c.onTouchEvent}"
+      ontouchend="{!c.onTouchEvent}"
+      ontouchmove="{!c.onTouchEvent}"
+      ontouchcancel="{!c.onTouchEvent}"
+      onmousedown="{!c.onMouseEvent}"
+      onmouseup="{!c.onMouseEvent}"
+      onmousemove="{!c.onMouseEvent}"
+      onmouseout="{!c.onMouseEvent}"
+      onkeypress="{!c.onKeyEvent}"
+    >
+      
+      <div aura:id="row0" class="row">
+        <div class="cell"><span aura:id="cell0" class=""></span></div>
+        <div class="cell"><span aura:id="cell1" class=""></span></div>
+        <div class="cell"><span aura:id="cell2" class=""></span></div>
+        <div class="cell"><span aura:id="cell3" class=""></span></div>
+      </div>
+      <div aura:id="row1" class="row">
+        <div class="cell"><span aura:id="cell4" class=""></span></div>
+        <div class="cell"><span aura:id="cell5" class=""></span></div>
+        <div class="cell"><span aura:id="cell6" class=""></span></div>
+        <div class="cell"><span aura:id="cell7" class=""></span></div>
+      </div>
+      <div aura:id="row2" class="row">
+        <div class="cell"><span aura:id="cell8" class=""></span></div>
+        <div class="cell"><span aura:id="cell9" class=""></span></div>
+        <div class="cell"><span aura:id="cell10" class=""></span></div>
+        <div class="cell"><span aura:id="cell11" class=""></span></div>
+      </div>
+      <div aura:id="row3" class="row">
+        <div class="cell"><span aura:id="cell12" class=""></span></div>
+        <div class="cell"><span aura:id="cell13" class=""></span></div>
+        <div class="cell"><span aura:id="cell14" class=""></span></div>
+        <div class="cell"><span aura:id="cell15" class=""></span></div>
+      </div>
+    </div>
+  </div>
+</aura:component>

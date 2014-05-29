@@ -1,0 +1,10 @@
+<aura:component>
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <aura:attribute name="latitude" type="Double" default="37.79416666666667"/>
+  <aura:attribute name="longitude" type="Double" default="-122.39416666666666"/>
+  <aura:attribute name="zoom" type="Integer" default="12"/>
+  <aura:attribute name="currentMarker" type="Boolean" default="true"/>
+  <div class="map-outer">
+    <div class="map" aura:id="map"/>
+  </div>
+</aura:component>
