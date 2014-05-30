@@ -20,8 +20,10 @@
       preview.appendChild(item);
       
       // Fire event to allow others to consume the new image
-      var addImageEvent = component.getEvent("addPicture");
+      //var addImageEvent = component.getEvent("addPicture");
 
+      var addImageEvent = $A.get("e.html5:addImage");
+      
       if (addImageEvent) {
         addImageEvent.setParams(photo).fire();  
       }

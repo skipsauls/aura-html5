@@ -1,4 +1,4 @@
-<aura:event type="COMPONENT">
+<aura:event type="APPLICATION">
 	<aura:attribute name="name" type="String" description=""/>
 	<aura:attribute name="src" type="String" description=""/>
 	<aura:attribute name="type" type="String" description=""/>

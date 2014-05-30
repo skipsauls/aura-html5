@@ -33,7 +33,7 @@
     showGrid="false"
     showControls="false"
     actionKeyCodes="jump:32,toggleRunning:13"
-    flappySpriteName="flappy"
+    flappySpriteName="saasy"
     staticSpritesName="static"
     backgroundURL="/img/sf_skyline_2240x256.jpg"
     columnURL="/img/column_32x32.png"

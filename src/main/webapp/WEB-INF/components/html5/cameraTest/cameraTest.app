@@ -3,9 +3,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <div>
-    <html5:sink/>
-  </div>
-  <div>
     <div class="row">
       <div class="left">
         <h1>&lt;html5:camera/&gt;</h1>
