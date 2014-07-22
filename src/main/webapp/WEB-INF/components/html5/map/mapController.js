@@ -5,6 +5,10 @@
     helper.doInit(component, event);
   },
 
+  getCurrentPosition: function(component, event, helper) {
+    helper.getCurrentPosition(component, event);
+  },
+  
   handleEvent: function(component, event, helper) {
     helper.handleEvent(component, event);
   }

@@ -1,0 +1,5 @@
+<aura:component>
+	<aura:attribute name="script" type="String" required="true" />
+	<aura:attribute name="callback" type="Aura.Action" required="true" />
+	<aura:handler name="init" value="{!this}" action="{!c.init}"/>
+</aura:component>

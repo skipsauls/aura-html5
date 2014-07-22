@@ -1,10 +1,23 @@
 <aura:component>
   <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <aura:attribute name="key" type="String" default="AIzaSyCFOLP6g6fxvlgBgPdws-DRoN6GPjN3MbU" description="Google Maps Key"/>
+  <aura:attribute name="map" type="Object" description="Reference to the map object"/>
+  <aura:attribute name="markers" type="Object[]" description="Array of marker objects"/>
   <aura:attribute name="latitude" type="Double" default="37.79416666666667"/>
   <aura:attribute name="longitude" type="Double" default="-122.39416666666666"/>
   <aura:attribute name="zoom" type="Integer" default="12"/>
   <aura:attribute name="currentMarker" type="Boolean" default="true"/>
+  <aura:attribute name="scripts_dynamic"
+    type="String[]"
+    default="{!'https://maps.googleapis.com/maps/api/js?key=' + v.key + '&amp;sensor=false&amp;callback=gMapsInitialize'}"/>
+  <aura:attribute name="scripts"
+    type="String[]"
+    default="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFOLP6g6fxvlgBgPdws-DRoN6GPjN3MbU&amp;sensor=false&amp;callback=gMapsInitialize"/>
+  <aura:attribute name="styles"
+    type="String[]"
+    default=""/>
   <div class="map-outer">
     <div class="map" aura:id="map"/>
   </div>
+  <ui:button press="{!c.getCurrentPosition}" label="Current Location"/>
 </aura:component>

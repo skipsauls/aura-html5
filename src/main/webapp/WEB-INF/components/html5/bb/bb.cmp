@@ -1,0 +1,6 @@
+<aura:component extends="html5:backbone">
+  <aura:handler event="html5:backboneInit" action="{!c.doInit}" />
+  <aura:set attribute="backboneContent">
+    <button class="testBB">Test BB</button>
+  </aura:set>
+</aura:component>

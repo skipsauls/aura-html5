@@ -1,0 +1,86 @@
+<aura:component>
+    <aura:attribute name="eventNames" type="String[]" default="force:refreshView,force:showMessage,force:showModal,force:showPanel,
+                                                               force:toggleSpinner,force:navigateHome,force:navigateToComponent,
+                                                               force:navigateToURL,force:navigateToFeed,force:navigateToFeedItemDetail,
+                                                               force:navigateToFeedElementDetail,force:navigateToList,force:navigateToCanvasApp,
+                                                               force:navigateToRelatedList,force:navigateToSObject,
+                                                               aura:componentEvent,aura:addIntegrationComponent,aura:applicationEvent,aura:asyncRerender,
+                                                               aura:beforeLayoutChange,aura:clientOutOfSync,aura:connectionLost,aura:connectionResumed,
+                                                               aura:debugLog,aura:doneRendering,aura:doneWaiting,aura:handleLayout,aura:initialized,
+                                                               aura:invalidSession,aura:titleChange,aura:layoutChange,aura:layoutFailed,aura:locationChange,
+                                                               aura:noAccess,aura:systemError,aura:valueEvent,aura:valueChange,aura:valueInit,aura:waiting,
+                                                               ui:baseDOMEvent,ui:baseKeyboardEvent,ui:baseMouseEvent,ui:blur,ui:change,ui:clearErrors,
+                                                               ui:click,ui:copy,ui:cut,ui:dblclick,ui:focus,ui:inputEvent,ui:keydown,ui:keypress,ui:keyup,
+                                                               ui:mousedown,ui:mousemove,ui:mouseout,ui:mouseover,ui:mouseup,ui:paste,ui:press,ui:select,
+                                                               ui:updateError,ui:validationError"/>
+    <aura:attribute name="filterNamespaces" type="String[]" default="aura"/>
+    <aura:attribute name="eventDefsMap" type="Map"/>
+    <aura:attribute name="selectedEvent" type="String"/>
+    <aura:attribute name="eventAttributes" type="List"/>
+    <aura:attribute name="sampleFireEventCode" type="String" default=""/>
+    <aura:attribute name="sampleHandleEventCode" type="String" default=""/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <div class="main">
+        <label for="eventSelect">Events:</label>
+        <select id="eventSelect" aura:id="eventSelect" onchange="{!c.selectEventDef}"></select>
+        
+        <section aura:id="evtAttrs">
+            <div class="left">
+                <div class="container">
+                    <h1>Event Parameters</h1>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th id="name">Name</th>
+                                <th id="type">Type</th>
+                                <th id="value">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>        
+                            <aura:iteration items="{!v.eventAttributes}" var="attribute">
+                                <tr>
+                                    <td>
+                                        <ui:outputText aura:id="descriptor" value="{!attribute.name}"/>
+                                    </td>
+                                    <td>
+                                        <ui:outputText aura:id="type" value="{!attribute.type}"/>
+                                    </td>
+                                    <td class="{!attribute.required ? 'required' : ''}">
+                                        <ui:inputText aura:id="value" value="{!attribute.value}"
+                                                      change="{!c.handleValueChange}"
+                                                      blur="{!c.handleValueChange}"
+                                                      mouseout="{!c.handleValueChange}"/>
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="right">
+                <div class="container">
+                    <h1>Sample Code</h1>
+                    <ul class="tabs">
+                      	<li class="tab current" data-tab="sampleFireEventCodeTab" onclick="{!c.selectTab}">Fire Event</li>
+                      	<li class="tab" data-tab="sampleHandleEventCodeTab" onclick="{!c.selectTab}">Handle Event</li>
+                    </ul>
+                    <div class="tab-content current" aura:id="sampleFireEventCodeTab">
+                        <button class="copy-to-clipboard" onclick="{!c.copyToClipboard}" data-tab-content="sampleFireEventCode">Copy</button>
+                        <pre class="sample-code" aura:id="sampleFireEventCode">
+                            {!v.sampleFireEventCode}
+                        </pre>
+                    </div>
+                    <div class="tab-content" aura:id="sampleHandleEventCodeTab">
+                        <button class="copy-to-clipboard" onclick="{!c.copyToClipboard}" data-tab-content="sampleHandleEventCode">Copy</button>
+                        <pre class="sample-code" aura:id="sampleHandleEventCode">
+                            {!v.sampleHandleEventCode}
+                        </pre>
+                    </div>
+                </div>
+            </div>
+            <ui:button label="Fire!" class="fire" press="{!c.fireEvent}"/>
+        </section>
+        
+    </div>
+</aura:component>

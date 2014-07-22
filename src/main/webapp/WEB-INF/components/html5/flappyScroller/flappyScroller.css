@@ -1,7 +1,11 @@
 .THIS.container {
   margin: 0px auto;
+  width: 100%;
+  height: 100%;
+  /*
   width: 512px;
   height: 384px;
+  */
 }
 
 .THIS .promo {

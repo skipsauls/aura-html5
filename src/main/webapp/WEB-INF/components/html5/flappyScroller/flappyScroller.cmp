@@ -6,6 +6,9 @@
   <aura:handler name="keypress" action="{!c.handleKeypress}" />
   <aura:handler name="click" action="{!c.handleClick}" />
   -->
+  <aura:attribute name="gameData" type="Object" description="The data structures used in the game"/>
+  
+  <aura:attribute name="gameStep" type="String" default="intro" description="The step within the game (intro, game, ending, end, etc.)"/>
   <aura:attribute name="mode" type="String" default="game"/>
   <aura:attribute name="running" type="Boolean" default="false" />
   <aura:attribute name="gameTitle" type="String" default="Flappy SaaSy" />
@@ -41,9 +44,9 @@
         </ui:block>
       </aura:set>
     </aura:renderIf>      
-    <!--
-    <canvas aura:id="canvas" width="576" height="256">
-    -->
+
+    <canvas aura:id="canvas" width="576" height="256" name="phone"></canvas>
+<!--    
     <aura:if isTrue="{!$Browser.isIOS == true}">
       <aura:if isTrue="{!$Browser.isPhone == true}">
         <canvas aura:id="canvas" width="512" height="384" name="iPhone"></canvas>
@@ -55,5 +58,6 @@
         <canvas aura:id="canvas" width="512" height="384" name="desktop"></canvas>
       </aura:set>
     </aura:if>
+-->    
   </div>
 </aura:component>

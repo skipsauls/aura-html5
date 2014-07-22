@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION">
+	<aura:attribute name="app" type="Object"/>
+	<aura:attribute name="el" type="Object"/>
+</aura:event>

@@ -1,0 +1,3 @@
+<aura:component implements="force:appHostable">
+    <aotp1:eventTest/>
+</aura:component>

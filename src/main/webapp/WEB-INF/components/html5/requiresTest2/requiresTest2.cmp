@@ -1,0 +1,45 @@
+<aura:component>
+    <aura:attribute name="title" type="String" default="requiresTest2"/>
+    <aura:attribute name="name" type="String" default="Han"/>
+    <aura:attribute name="stooges" type="String[]" default="Larry,Moe,Curly"/>
+    
+    <html5:requires initScripts="{!c.initScripts}" styles="/css/aotp_bootstrap.css"/>
+    
+    <div class="aotp">
+        <div class="container well">
+            <h3>{!v.title}</h3>
+            <div class="row">
+                <div class="span2">
+                    <button id="toggleAlert" class="btn">Toggle Alert</button>
+                    <button class="btn" data-press="toggleAlert">Toggle Alert</button>
+                    <button class="btn" onclick="{!c.toggleAlert}">Toggle Alert</button>
+                </div>
+                <div class="span4">
+                    
+                    <div id="test_alert" class="alert alert-warning alert-dismissible" role="alert" style="display: none">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <a class="close" data-dismiss="alert">×</a>
+                        <strong>{!v.name}</strong>, seriously, use the Force or else!
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <h4>Stooges</h4>
+                    <ul class="list-group">
+                        <aura:iteration items="{!v.stooges}" var="stooge">
+                        <li class="list-group-item">
+                            {!stooge}
+                            <span class="badge">14</span>
+                        </li>
+                        </aura:iteration>
+                    </ul>
+                </div>
+                <div>
+                    Use the Force, {!v.name}!
+                </div>
+            </div>
+        </div>    
+    </div>
+</aura:component>
+

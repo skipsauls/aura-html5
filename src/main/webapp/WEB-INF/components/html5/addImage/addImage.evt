@@ -1,6 +1,6 @@
 <aura:event type="APPLICATION">
-	<aura:attribute name="name" type="String" description=""/>
-	<aura:attribute name="src" type="String" description=""/>
+	<aura:attribute name="name" type="String" description="The name of the image." required="true"/>
+	<aura:attribute name="src" type="String" description="The src url of the image."/>
 	<aura:attribute name="type" type="String" description=""/>
 	<aura:attribute name="size" type="Long" description=""/>
 	<aura:attribute name="timestamp" type="Long" description=""/>

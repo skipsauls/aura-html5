@@ -1,0 +1,14 @@
+<aura:component>
+  <div class="main">
+  
+    <section>
+      <div class="row">
+        <ui:inputText aura:id="title" label="Title"></ui:inputText>
+      </div>
+      <div class="row">
+        <ui:inputText aura:id="message" label="Message"></ui:inputText>
+      </div>
+    </section>
+    
+  </div>
+</aura:component>

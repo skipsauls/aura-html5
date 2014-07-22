@@ -1,0 +1,6 @@
+<aura:component>
+    <aura:attribute name="styles" type="String[]"/>
+	<aura:attribute name="initScripts" type="Aura.Action"/>
+	<aura:handler name="init" value="{!this}" action="{!c.init}"/>
+</aura:component>
+

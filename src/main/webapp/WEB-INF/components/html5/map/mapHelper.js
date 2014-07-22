@@ -1,22 +1,5 @@
 ({
 
-  getResources: function() {
-    // Duplicates are just for testing!
-    var resources = {
-      "js": [
-        // "https://maps.googleapis.com/maps/api/js?key=AIzaSyCFOLP6g6fxvlgBgPdws-DRoN6GPjN3MbU&sensor=false&callback=gMapsInitialize",
-        "https://maps.googleapis.com/maps/api/js?key=AIzaSyCFOLP6g6fxvlgBgPdws-DRoN6GPjN3MbU&sensor=false&callback=gMapsInitialize"
-
-      ],
-      "css": [
-        // "http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css", "http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"
-
-      ]
-    };
-
-    return resources;
-  },
-
   require: function(component, type, url) {
     
     var globalId = component.getGlobalId();
@@ -91,7 +74,15 @@
   },
 
   loadResources: function(component) {
-    var resources = this.getResources();
+    var scripts = component.get("v.scripts");
+    scripts = typeof scripts === "array" ? scripts : [scripts];
+    var styles = component.get("v.styles");
+    styles = typeof styles === "array" ? styles : [styles];
+    var resources = {
+      js: scripts,
+      css: styles
+    };
+    
     this.resourceCount = this.resourceCount || 0;
     for (var i = 0; i < resources.css.length; i++) {
       this.require(component, "css", resources.css[i]);
@@ -118,14 +109,11 @@
     console.warn("mapHelper.initMap: ", google.maps, google.maps.LatLng);
     
     var mapOptions = this.getMapOptions(component);
-    
     var mapEl = component.find("map").getElement();
-    
     var map = new google.maps.Map(mapEl, mapOptions);
     
     // Keep track of the map
-    this.maps = this.maps || {};
-    this.maps[component.getGlobalId()] = map;
+    component.setValue("v.map", map);
 
     console.warn("component.get(\"v.currentMarker\"): ", component.get("v.currentMarker"));
     
@@ -134,10 +122,20 @@
     }
   },
   
+  getCurrentPosition: function(component) {
+    if (navigator.geolocation) {
+      var self = this;
+      navigator.geolocation.getCurrentPosition(function(pos) {
+        component.setValue("v.latitude", pos.coords.latitude);
+        component.setValue("v.longitude", pos.coords.longitude);
+        self.addMarker(component, pos.coords, "Current Location");
+      });
+    }
+  },
+  
   addMarker: function(component, position, title) {
     console.warn("addMarker: ", position, typeof position, title);
-    var map = this.maps[component.getGlobalId()];
-    console.warn("map: ", map);
+    var map = component.get("v.map");
     if (map) {
       /*
        * Position object has multiple variants: {latitude: XX.XX, longitude: XX.XX} {latitude: {degrees: XX, minutes: XX, seconds: XX, direction: "N|S"},
@@ -161,8 +159,6 @@
         } else {
           pos = position;
         }
-      } else {
-        // Get from current location?
       }
       
       pos = pos || new google.maps.LatLng(lat, lng);
@@ -174,6 +170,8 @@
         map: map, 
         title: title
       });
+      var markers = component.get("v.markers");
+      markers.push(marker);
     } else {
       console.warning("No map found for ", component.getGlobalId());
     }
@@ -192,6 +190,9 @@
   doInit: function(component, event) {
     console.warn("mapHelper.doInit: ", component, component.getElement(), component.getGlobalId());
 
+    var scripts = component.get("v.scripts");
+    console.warn("scripts: ", scripts);
+    
     var self = this;
     window.gMapsInitialize = function() {
       console.warn("window.gMapsInitialize");

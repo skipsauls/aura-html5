@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="css/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+  <button id="foo" class="btn">Button</button>
+  <div class="test">My div</div>
+  <div>
+    <button id="bar" class="btn">Bar</button>
+  </div>
+  <div class="test2">Another div</div>
+  <div class="container">
+    <div class="row">
+      <div class="span4">
+        <div class="alert hide">
+          <a class="close" data-dismiss="alert">×</a> <strong>Warning!</strong> Best check yo self, you're not looking too good.
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="js/jquery.js" type="text/javascript"></script>
+  <script src="js/bootstrap.js" type="text/javascript"></script>
+  <script type="text/javascript">
+      console.warn("sneech");
+      (function() {
+        console.log("ready 1!");
+      })();
+      $(function() {
+        console.log("ready!");
+        $("button#foo").on("click", function() {
+          console.warn("button#foo onclick");
+          $("div.test").modal();
+        });
+        $("button#bar").on("click", function() {
+          console.warn("button#bar onclick");
+          $("div.alert").alert();
+        });
+      });
+    </script>
+</body>
+</html>

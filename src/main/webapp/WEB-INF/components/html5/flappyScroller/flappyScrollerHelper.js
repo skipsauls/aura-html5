@@ -1,8 +1,97 @@
 ({
 
-  setupStructs: function() {
-    this.component = null,
-    this.mode = "game",
+  setupGameData: function() {
+    var scrollVal = scrollVal || -10000;
+    scrollVal = scrollVal < 0 ? 0 : scrollVal;
+    
+    var gameData = {
+      // component : null,
+      // mode : "game",
+      gameStep : "intro",
+      showGrid : false,
+      showDebug : false,
+      running : false,
+      scrollImg : null,
+      columnImg : null,
+      columnTopImg : null,
+      columnBottomImg : null,
+      canvasWidth : 0,
+      canvasHeight : 0,
+      scrollVal : scrollVal,
+      speed : 0,
+      imgWidth : 0,
+      imgHeight : 0,
+      fieldSize : {
+        w: 512,
+        h: 384
+      },
+      fieldScaling : {
+        x: 1,
+        y: 1
+      },
+      gridPosition : 0,
+      gridSize : 32,
+      gridOffset : 0,
+      gridSpeed : 0,
+      gameTitle : "Flappy SaaSy",
+      gamePosition : 0,
+      flappySpriteName : null,
+      statisSpriteName : null,
+      spriteRect : {},
+      sprites : {},
+      columns : {},
+      timeout : null,
+      animationFrame : null,
+      canvas : null,
+      ctx : null,
+      debugInfo : {},
+      debugSize : {
+        w: 200,
+        h: 200
+      },
+      score : 0,
+      frameStats : {
+        count: 0,
+        fps: 0,
+        oldtime: 0,
+        lastUpdate: 0
+      },
+
+      actionKeyCodeMap : {
+        setup: 115,
+        resetGame: 114,
+        jump: 32,
+        toggleRunning: 15,
+        toggleDebug: 27,
+        toggleGrid: 8
+      },
+
+      // Generated
+      keyCodeActionMap : {},
+
+      containerSizes : {
+        desktop: {
+          w: 1024,
+          h: 768
+        },
+        tablet: {
+          w: 1024,
+          h: 768
+        },
+        phone: {
+          w: 480,
+          h: 320
+        },
+        iPhone5: {
+          w: 480,
+          h: 320
+        }
+      }
+    };
+    
+    
+    // this.component = null,
+    // this.mode = "game",
     this.gameStep = "intro",
     this.showGrid = false;
     this.showDebug = false;
@@ -71,11 +160,11 @@
         w: 1024,
         h: 768
       },
-      iPad: {
+      tablet: {
         w: 1024,
         h: 768
       },
-      iPhone: {
+      phone: {
         w: 480,
         h: 320
       },
@@ -84,14 +173,19 @@
         h: 320
       }
 
-    };
 
+    };
+    
+    return gameData;
   },
 
   init: function(component, event) {
 
-    this.setupStructs();
-    this.component = component;
+    var gameData = this.setupGameData();
+    component.setValue("v.gameData", gameData);
+    
+    // this.component = component;
+    
     this.setupAnimationFrame();
     this.setupKeyCodeActionMap(component);
     var self = this;
@@ -118,25 +212,53 @@
 
       console.warn("client: ", client);
 
-      container.style.width = self.containerSizes[client].w + "px";
-      container.style.height = self.containerSizes[client].h + "px";
-
-      console.warn("container size: ", container.style.width, container.style.height);
-
-      console.warn("window size: ", window.innerWidth, window.innerHeight);
-
-      self.debugInfo.windowSize = window.innerWidth + ", " + window.innerHeight;
-
-      if (window.innerWidth < window.innerHeight) {
-        var d = canvas.width;
-        canvas.width = canvas.height;
-        canvas.height = d;
-
-        var s = container.style.width;
-        container.style.width = container.style.height;
-        container.style.height = s;
+      console.warn("container size: ", container.clientWidth, container.clientHeight);
+      
+      canvas.width = container.clientWidth;
+      canvas.height = container.clientHeight;
+      /*
+       * 
+       * 
+       * container.style.width = self.containerSizes[client].w + "px"; container.style.height = self.containerSizes[client].h + "px";
+       * 
+       * 
+       * console.warn("container size: ", container.style.width, container.style.height);
+       * 
+       * console.warn("window size: ", window.innerWidth, window.innerHeight);
+       * 
+       * self.debugInfo.windowSize = window.innerWidth + ", " + window.innerHeight;
+       * 
+       * if (window.innerWidth < window.innerHeight) { var d = canvas.width; canvas.width = canvas.height; canvas.height = d;
+       * 
+       * var s = container.style.width; container.style.width = container.style.height; container.style.height = s; //container.width = container.style.width;
+       * //container.height = container.style.height; }
+       */
+      /*
+       * if (canvas.width > window.innerWidth || canvas.height > window.innerHeight) { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+       * 
+       * if (window.innerWidth > window.innerHeight) { canvas.width = Math.min(canvas.width, 384); canvas.height = Math.round(canvas.width * 0.75); } else {
+       * canvas.height = Math.min(canvas.width, 512); canvas.width = Math.round(canvas.height * 0.75); }
+       */
+      
+      var maxW = 384;
+      var maxH = 512;
+      
+      if (window.innerWidth > window.innerHeight) {
+        var t = maxW;
+        maxW = maxH;
+        maxH = t;
       }
-
+      
+      // canvas.width = Math.min(window.innerWidth, maxW);
+      // canvas.height = Math.min(window.innerHeight, maxH);
+      
+      canvas.width = maxW;
+      canvas.height = maxH;
+      
+      /*
+       * if (window.innerWidth > window.innerHeight) { canvas.width = 512; canvas.height = 384; } else { canvas.height = 512; canvas.width = 384; }
+       */
+      
       console.warn("canvas size: ", canvas.width, canvas.height);
       console.warn("container size: ", container.width, container.height);
 
@@ -170,10 +292,10 @@
   },
 
   toggleMode: function(component, args) {
-    this.mode = component.get("v.mode");
-    this.mode = this.mode === "game" ? "debug" : "game";
-    component.setValue("v.mode", this.mode);
-    this.debugInfo.mode = this.mode;
+    var mode = component.get("v.mode");
+    mode = mode === "game" ? "debug" : "game";
+    component.setValue("v.mode", mode);
+    this.debugInfo.mode = mode;
   },
 
   toggleRunning: function(component, event) {
@@ -182,8 +304,8 @@
       this.endGame(component);
     } else {
       this.startGame(component);
-      //this.showControls = !component.get("v.showControls");
-      //component.setValue("v.showControls", this.showControls);
+      // this.showControls = !component.get("v.showControls");
+      // component.setValue("v.showControls", this.showControls);
     }
     component.setValue("v.running", !this.running);
   },
@@ -242,14 +364,14 @@
   },
 
   setup: function(component, event) {
-    this.resetGame();
+    this.resetGame(component, event);
     this.addSprites(component);
     
-    //this.scrollVal = 0;
+    // this.scrollVal = 0;
     this.gamePosition = 0;
     this.gridPosition = 32;
 
-    this.mode = component.get("v.mode");
+    var mode = component.get("v.mode");
     this.gridSize = component.get("v.gridSize");
     this.showGrid = component.get("v.showGrid");
     this.showDebug = component.get("v.showDebug");
@@ -269,7 +391,7 @@
     this.scrollImg.src = component.get("v.backgroundURL");
     this.canvasWidth = canvas.width;
     this.canvasHeight = canvas.height;
-    //his.scrollVal = 0;
+    // his.scrollVal = 0;
     this.speed = 0.5;
     this.gridSpeed = 2;
 
@@ -306,7 +428,7 @@
       // Turn on flappy
       self.sprites[self.flappySpriteName].display = true;
       
-      if (self.mode === "game") {
+      if (mode === "game") {
         self.playIntro(component, event);
       }
     }
@@ -339,11 +461,12 @@
   },
   
   resetGame: function(component, event) {
-    //this.scrollVal = 0;
+    // this.scrollVal = 0;
     this.gridPosition = 0;
     this.gamePosition = 0;
     this.score = 0;
-    this.gameStep = "intro";
+    console.warn("-----------------------------------------------");
+    component.setValue("v.gameStep", "intro");
   },
 
   playIntro: function(component, event) {
@@ -358,9 +481,9 @@
   },
 
   startGame: function(component, event) {
-    this.gridSize = component.get("v.gridSize"); //32;
-    this.gamePosition = 0;//-8;
-    this.gameStep = "game";
+    this.gridSize = component.get("v.gridSize"); // 32;
+    this.gamePosition = 0;// -8;
+    component.setValue("v.gameStep", "game");
     this._collisions = {};
     this.score = 0;
     
@@ -369,19 +492,19 @@
     sprite.bounds.y = midY;
     sprite.dest.y = midY - this.gridSize * 1;
     
-    //this.startAnimation(component);
+    // this.startAnimation(component);
     this.showControls = false;
     component.setValue("v.showControls", this.showControls);    
   },
   
   endGame: function(component, canvas, ctx) {
-    this.gameStep = "ending";
+    component.setValue("v.gameStep", "ending");
     this.gamePosition -= 1;
-    //this.gridPosition -= 1;
+    // this.gridPosition -= 1;
   },
   
   gameOver: function(component, canvas, ctx) {
-    this.gameStep = "end";
+    component.setValue("v.gameStep", "end");    
     window.cancelAnimationFrame(this.animationFrame);
   },
   
@@ -402,7 +525,7 @@
       }
 
       self.animationFrame = window.requestAnimationFrame(gameLoop);
-      self.render(null, self.canvas, self.ctx);
+      self.render(component, self.canvas, self.ctx);
     }
     gameLoop();
   },
@@ -450,11 +573,12 @@
     }
     ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 
-    if (this.gameStep === "ending" || this.gameStep === "end") {
+    var gameStep = component.get("v.gameStep");
+    if (gameStep === "ending" || gameStep === "end") {
       
     } else {
       if (this.scrollVal <= this.speed) {
-        //this.scrollVal = this.canvasWidth - this.speed;
+        // this.scrollVal = this.canvasWidth - this.speed;
         this.scrollVal = this.imgWidth - this.speed;
       }
       this.scrollVal -= this.speed;
@@ -465,7 +589,7 @@
       }
     }
 
-    this.drawBackground(canvas, ctx);
+    this.drawBackground(component, canvas, ctx);
 
     var maxY = this.canvasHeight - this.gridSize * 3;
 
@@ -477,10 +601,10 @@
     if (this.spriteRect.y >= maxY) {
       collision = true;
     } else {
-      collision = this.checkCollision(canvas, ctx);
+      collision = this.checkCollision(component, canvas, ctx);
     }
         
-    if (collision === true && this.mode === "game") {
+    if (collision === true && component.get("v.mode") === "game") {
       this.playSound("collision");
       this.endGame(component, canvas, ctx);
     }
@@ -506,24 +630,24 @@
     }
     this.score = t - s;
 
-    this.drawColumns(canvas, ctx, this.showGrid);
+    this.drawColumns(component, canvas, ctx, this.showGrid);
 
-    this.drawSprites(canvas, ctx);
+    this.drawSprites(component, canvas, ctx);
 
-    this.drawForeground(canvas, ctx);
-    this.drawStatus(canvas, ctx);
+    this.drawForeground(component, canvas, ctx);
+    this.drawStatus(component, canvas, ctx);
 
     if (this.showGrid) {
-      this.drawGrid(canvas, ctx);
+      this.drawGrid(component, canvas, ctx);
     }
 
     if (this.showDebug) {
-      this.drawDebug(canvas, ctx);
+      this.drawDebug(component, canvas, ctx);
     }
 
   },
 
-  checkCollision: function(canvas, ctx) {
+  checkCollision: function(component, canvas, ctx) {
     var sprite = this.sprites[this.flappySpriteName];
     
     var spriteRect = {
@@ -545,7 +669,7 @@
     this.ctx2.clearRect(0, 0, this.canvas2.width, this.canvas2.height);
     
     // Do not draw grid when checking collisions
-    this.drawColumns(this.canvas2, this.ctx2, false);
+    this.drawColumns(component, this.canvas2, this.ctx2, false);
 
     this.debugInfo.columnsPassed = this.debugInfo.columnsPassed || 0;
 
@@ -553,7 +677,7 @@
     var imageData1 = this.ctx2.getImageData(spriteRect.x, spriteRect.y, spriteRect.w, spriteRect.h);
 
     this.ctx2.clearRect(0, 0, this.canvas2.width, this.canvas2.height);
-    this.drawSprites(this.canvas2, this.ctx2);
+    this.drawSprites(component, this.canvas2, this.ctx2);
     // var imageData2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
     var imageData2 = this.ctx2.getImageData(spriteRect.x, spriteRect.y, spriteRect.w, spriteRect.h);
 
@@ -564,6 +688,7 @@
 
     var collision = this.checkBitmapCollision(imageData1.data, imageData2.data, spriteRect.w * spriteRect.h);
 
+    var gameStep = component.get("v.gameStep");
     if (this.showDebug && this.gameStep !== "intro") {
       ctx.putImageData(imageData1, 0, 0);
       ctx.putImageData(imageData2, 0, this.gridSize);
@@ -577,7 +702,7 @@
   /*
    * Draws the background, very simple scroller
    */
-  drawBackground: function(canvas, ctx) {
+  drawBackground: function(component, canvas, ctx) {
     ctx.save();
     ctx.scale(this.imgRatio, 1);
     ctx.drawImage(this.scrollImg, this.imgWidth - this.scrollVal, 0, this.scrollVal, this.imgHeight, 0, 0, this.scrollVal, this.canvasHeight);
@@ -585,8 +710,8 @@
     ctx.restore();
   },
 
-  /* Adapted from Google's Closure Library
-   * http://docs.closure-library.googlecode.com/git/closure_goog_math_rect.js.source.html
+  /*
+   * Adapted from Google's Closure Library http://docs.closure-library.googlecode.com/git/closure_goog_math_rect.js.source.html
    * 
    * Used for rectangular collision detection
    */
@@ -607,9 +732,10 @@
 
   // Draws the columns
   // Returns true if the sprite has passed the current column
-  drawColumns: function(canvas, ctx, showGrid) {
+  drawColumns: function(component, canvas, ctx, showGrid) {
 
-    if (this.gameStep === "intro") {
+    var gameStep = component.get("v.gameStep");
+    if (gameStep === "intro") {
       return;
     }
     
@@ -712,9 +838,8 @@
         /*
          * Rectangle based collision detection, no longer used for this game.
          * 
-         * This is good for simple collision detection, very fast, but
-         * it is not pixel-accurate. If the showGrid attribute is set to 
-         * true then it will show these collisions with various colors.
+         * This is good for simple collision detection, very fast, but it is not pixel-accurate. If the showGrid attribute is set to true then it will show
+         * these collisions with various colors.
          */
 
         // First check if there is an overlap
@@ -789,16 +914,17 @@
   // This is the main "action" function, use for jumping, flapping, etc.
   // Typically will map to the spacebar, mouse, tap, etc.
   jump: function(component, event) {
-    if (this.gameStep === "ending") {
+    var gameStep = component.get("v.gameStep");
+    if (gameStep === "ending") {
       // If the ending sequence is playing, do nothing
       return;
-    } else if (this.gameStep === "end") {
+    } else if (gameStep === "end") {
       // If the end screen is showing, restart the game
       this.setup(component, event);
       return;
-    } else if (this.gameStep === "intro") {
+    } else if (gameStep === "intro") {
       // If the intro is showing, start the game
-      this.gameStep = "game";
+      component.setValue("v.gameStep", "game");
       this.startGame(component, event);
       return;
     }
@@ -811,7 +937,7 @@
     sprite.angle = sprite.angle > 15 ? 15 : sprite.angle;
 
     sprite.bounds.y -= (this.gridSize / 4);
-    //sprite.bounds.y = sprite.bounds.y < -this.gridSize ? -this.gridSize : sprite.bounds.y; 
+    // sprite.bounds.y = sprite.bounds.y < -this.gridSize ? -this.gridSize : sprite.bounds.y;
     sprite.bounds.y = sprite.bounds.y < 0 ? 0 : sprite.bounds.y; 
 
     sprite.dest = {
@@ -821,7 +947,7 @@
 
   },
 
-  drawSprite: function(canvas, ctx, name) {
+  drawSprite: function(component, canvas, ctx, name) {
 
     var sprite = this.sprites[name];
 
@@ -832,7 +958,8 @@
       sprite.frameIndex = (sprite.frameIndex >= sprite.frames) ? 0 : sprite.frameIndex;
       sprite.lastTimestamp = currentTimestamp;
     }
-    if (this.gameStep === "ending" || this.gameStep === "end") {
+    var gameStep = component.get("v.gameStep");
+    if (gameStep === "ending" || gameStep === "end") {
       sprite.frameIndex = 0;
     }
 
@@ -841,7 +968,7 @@
     if (sprite.name == this.flappySpriteName) {
 
       var maxY = this.canvasHeight - this.gridSize * 2;
-      //var maxY = (this.canvasHeight - 1) - (sprite.bounds.h * 1)
+      // var maxY = (this.canvasHeight - 1) - (sprite.bounds.h * 1)
       
       // Only for flappy games! Keeps the sprite centered on the screen.
       this.debugInfo.gridSize = this.gridSize;
@@ -859,10 +986,10 @@
         sprite.angle = 90;
       } else {
   
-        //var maxY = (this.canvasHeight - 1) - (sprite.bounds.h * 1)
-        if (sprite.bounds.y >= maxY) { //}(this.canvasHeight - 1) - (sprite.bounds.h * 1)) {
+        // var maxY = (this.canvasHeight - 1) - (sprite.bounds.h * 1)
+        if (sprite.bounds.y >= maxY) { // }(this.canvasHeight - 1) - (sprite.bounds.h * 1)) {
           sprite.angle = 0;
-          sprite.bounds.y = maxY; //(this.canvasHeight - 1) - (sprite.bounds.h * 1);
+          sprite.bounds.y = maxY; // (this.canvasHeight - 1) - (sprite.bounds.h * 1);
         } else if (sprite.bounds.y < sprite.dest.y) {
           sprite.angle += sprite.angle < 90 ? 4 : 0;
         } else {
@@ -921,7 +1048,7 @@
           sprite.bounds.y -= sprite.speed.y;
           sprite.speed.y -= sprite.speed.y > 1 ? 0.5 : 0;
         } else {
-          sprite.dest.y = maxY; //this.canvasHeight - (sprite.bounds.h * 1);
+          sprite.dest.y = maxY; // this.canvasHeight - (sprite.bounds.h * 1);
           if (sprite.bounds.y <= sprite.dest.y) {
             sprite.bounds.y += sprite.speed.y
             sprite.speed.y = sprite.speed.y > 3 ? 3 : sprite.speed.y;
@@ -935,25 +1062,25 @@
   },
 
   // This can be used to draw multiple sprites, but for this game we'll only draw flappy
-  drawSprites: function(canvas, ctx) {
+  drawSprites: function(component, canvas, ctx) {
 
-    //this.drawSprite(canvas, ctx, this.flappySpriteName);
+    // this.drawSprite(canvas, ctx, this.flappySpriteName);
 
     // Loop for multiple sprites...
     var sprite = null;
     for (var n in this.sprites) {
       if (this.sprites[n].display === true) {
-        this.drawSprite(canvas, ctx, n);
+        this.drawSprite(component, canvas, ctx, n);
       }
     }
  
   },
 
-  drawForeground: function(canvas, ctx) {
+  drawForeground: function(component, canvas, ctx) {
 
   },
 
-  drawSpriteText: function(canvas, ctx, sprite, offsetName, x, y) {
+  drawSpriteText: function(component, canvas, ctx, sprite, offsetName, x, y) {
     
     var offset = sprite.offsets[offsetName];
     var bounds = {
@@ -966,18 +1093,20 @@
       bounds.x, bounds.y, bounds.w, bounds.h);
   },
   
-  drawStatus: function(canvas, ctx) {
+  drawStatus: function(component, canvas, ctx) {
 
+    var gameStep = component.get("v.gameStep");
+    console.warn("gameStep: ", gameStep);
     // Newer sprite-based titles, etc.
-    if (this.gameStep === "intro") {
-      this.drawSpriteText(canvas, ctx, this.sprites[this.staticSpritesName], "title", null, 80);
-      this.drawSpriteText(canvas, ctx, this.sprites[this.staticSpritesName], "tapToStart", null, this.canvasHeight - 120);//230);
-    } else if (this.gameStep === "end") {
-      this.drawSpriteText(canvas, ctx, this.sprites[this.staticSpritesName], "gameOver", null, null);
-      this.drawSpriteText(canvas, ctx, this.sprites[this.staticSpritesName], "tapToContinue", null, this.canvasHeight - 120);//230);
+    if (gameStep === "intro") {
+      this.drawSpriteText(component, canvas, ctx, this.sprites[this.staticSpritesName], "title", null, 80);
+      this.drawSpriteText(component, canvas, ctx, this.sprites[this.staticSpritesName], "tapToStart", null, this.canvasHeight - 120);// 230);
+    } else if (gameStep === "end") {
+      this.drawSpriteText(component, canvas, ctx, this.sprites[this.staticSpritesName], "gameOver", null, null);
+      this.drawSpriteText(component, canvas, ctx, this.sprites[this.staticSpritesName], "tapToContinue", null, this.canvasHeight - 120);// 230);
     }
     
-    if (this.gameStep !== "intro") {
+    if (gameStep !== "intro") {
   
       // Score
       var textSize = 32;
@@ -999,7 +1128,7 @@
     
   },
 
-  drawGrid: function(canvas, ctx) {
+  drawGrid: function(component, canvas, ctx) {
     ctx.strokeStyle = "white";
     var y0 = 0;
     var y1 = this.canvasHeight - 1;
@@ -1037,7 +1166,7 @@
     ctx.stroke();
   },
 
-  drawDebug: function(canvas, ctx) {
+  drawDebug: function(component, canvas, ctx) {
     ctx.save();
     ctx.globalAlpha = 0.75;
     ctx.beginPath();
