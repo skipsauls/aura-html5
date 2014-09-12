@@ -118,6 +118,10 @@
           var url = window.URL || window.webkitURL;
           video.src = url ? url.createObjectURL(stream) : stream;
           video.play();
+          
+          video.addEventListener("play", function() {
+            
+          });
         },
         function(error) {
           /* do something */

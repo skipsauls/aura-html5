@@ -1,4 +1,4 @@
-<aura:application template="html5:flappyTemplate">
+<aura:application>
   <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
   <style>
     * {
@@ -93,7 +93,7 @@
   <html5:sound
     name="flap"
     src="/mp3/Shh.mp3"
-    startTime="0.5"
+    startTime="0.3"
     count="4"
   />
 

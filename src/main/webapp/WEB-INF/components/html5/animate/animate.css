@@ -1,0 +1,49 @@
+.THIS.outer {
+}
+
+.THIS .container {
+  width: 300px;
+  margin: 20px auto;
+}
+
+.THIS canvas {
+  border: 1px solid #000000;  
+}
+
+.THIS .row {
+  display: block;
+}
+
+.THIS .row.center {
+  text-align: center;
+}
+
+.THIS .slider {
+  display: inline-block;  
+}
+
+.THIS .slider span {
+  text-align: center;
+}
+
+.THIS .slider.vertical span {
+  display: block;
+}
+
+.THIS .slider.vertical input[type=range] {
+    writing-mode: bt-lr; /* IE */
+    -webkit-appearance: slider-vertical; /* WebKit */
+    width: 8px;
+    height: 200px;
+    padding: 0 5px;
+}
+
+.THIS .slider.horizontal {
+  margin: 0px auto;  
+}
+
+.THIS .slider.horizontal input[type=range] {
+  width: 200px;
+  height: 8px;
+  padding: 5px 0;
+}

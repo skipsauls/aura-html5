@@ -51,9 +51,11 @@
         }
       } else if (sprite.type === "static") {
         var offsets = component.get("v.offsets");
-        console.warn("offsets: ", offsets);
-        sprite.offsets = JSON.parse(offsets);
-        console.warn("sprite.offsets: ", sprite.offsets);
+        console.warn("offsets: ", offsets, typeof offsets);
+        if (typeof offets !== "undefined") {
+          sprite.offsets = JSON.parse(offsets);
+          console.warn("sprite.offsets: ", sprite.offsets);
+        }
       }
       self.addToCanvas(component, sprite);
     }
@@ -61,7 +63,6 @@
   },
 
   doInit: function(component, event) {
-    console.warn("spriteHelper.doInit");
     this.spriteDefs = this.spriteDefs || {};
     
     this.spriteDefs[component.get("v.name")] = {
@@ -92,7 +93,8 @@
       dest: {
         x: 0,
         y: 0
-      }
+      },
+      pin: component.get("v.pin")
     };
     
     var sprite = this.spriteDefs[component.get("v.name")];
@@ -110,13 +112,12 @@
         }
       } else if (sprite.type === "static") {
         var offsets = component.get("v.offsets");
-        console.warn("offsets: ", offsets);
-        sprite.offsets = JSON.parse(offsets);
-        console.warn("sprite.offsets: ", sprite.offsets);
+        if (typeof offsets !== "undefined") {
+          sprite.offsets = JSON.parse(offsets);
+        }
       }
       self.addToCanvas(component, sprite);
     }
-    console.warn("spriteHelper, this.name: ", this.name);
   },
   
   addToCanvas: function(component, sprite) {
@@ -126,7 +127,6 @@
       command: "add",
       args: sprite,
     }
-    console.warn("firing spriteCommandEvent: ", spriteCommandEvent);
     spriteCommandEvent.setParams(params).fire();
   },
 

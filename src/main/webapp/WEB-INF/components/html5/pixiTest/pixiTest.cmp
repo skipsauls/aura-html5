@@ -1,0 +1,12 @@
+<aura:component>
+  <aura:attribute name="data" type="Object"/>
+  <aura:attribute name="image" type="String"/>
+  <aura:attribute name="width" type="Integer" default="480"/>
+  <aura:attribute name="height" type="Integer" default="320"/>
+  <aura:attribute name="name" type="String"/>
+  <html5:requires initScripts="{!c.initScripts}" />
+  <div class="outer">
+    <div aura:id="container" class="container" onkeydown="{!c.handleKeydown}" tabindex="0" style="{!'width:' + v.width + 'px; height:' + v.height + 'px'}">
+    </div>
+  </div>
+</aura:component>

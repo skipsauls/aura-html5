@@ -324,7 +324,7 @@
     ctx.restore();
   },
 
-  drawSprites: function(component, canvas, ctx)
+  drawSprites: function(component, canvas, ctx) {
     var spriteEvent = $A.get("e.html5:spriteEvent");
      spriteEvent.setParams({name:name}).fire();    
      spriteEvent.setParams({canvas: canvas, ctx: ctx}).fire();    

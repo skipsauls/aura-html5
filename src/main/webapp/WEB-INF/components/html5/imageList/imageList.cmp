@@ -1,6 +1,9 @@
 <aura:component description="A list that responds to addImage events.">
-  <aura:handler event="html5:addImage" action="{!c.handleAddImage}" />
+  <aura:handler event="html5:addImage" action="{!c.handleAddImage}" />  
   <div class="container">
+    <canvas aura:id="canvas"/>
+    <button onclick="{!c.process}">Process</button>
+    <canvas aura:id="preview" class="preview"/>
     <ul aura:id="list" class="list"/>
   </div> 
 </aura:component>

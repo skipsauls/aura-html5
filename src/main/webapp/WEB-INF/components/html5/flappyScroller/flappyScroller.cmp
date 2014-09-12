@@ -9,13 +9,16 @@
   <aura:attribute name="gameData" type="Object" description="The data structures used in the game"/>
   
   <aura:attribute name="gameStep" type="String" default="intro" description="The step within the game (intro, game, ending, end, etc.)"/>
-  <aura:attribute name="mode" type="String" default="game"/>
-  <aura:attribute name="running" type="Boolean" default="false" />
+  <aura:attribute name="showGrid" type="Boolean" default="false" description="Toggle the grid on/off"/>
+  <aura:attribute name="showDebug" type="Boolean" default="false" description="Toggle the debug info on/off"/>
+  <aura:attribute name="showControls" type="Boolean" default="false" description="Toggle the control panel on/off"/>
+  <aura:attribute name="running" type="Boolean" default="false" description="Indicates whether game is running or not"/>
+  <aura:attribute name="mode" type="String" default="game" description="The mode that the game is in (game or debug)"/>
+
+  <aura:attribute name="imageMap" type="Map" description="The map of images used to draw the game"/>
+  
   <aura:attribute name="gameTitle" type="String" default="Flappy SaaSy" />
   <aura:attribute name="gridSize" type="Integer" default="32" />
-  <aura:attribute name="showControls" type="Boolean" default="true" />
-  <aura:attribute name="showGrid" type="Boolean" default="false" />
-  <aura:attribute name="showDebug" type="Boolean" default="false" />
   <aura:attribute name="actionKeyCodes" type="String"/>
   <aura:attribute name="flappySpriteName" type="String" default="flappy"/>
   <aura:attribute name="staticSpritesName" type="String" default="static"/>

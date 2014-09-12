@@ -1,12 +1,22 @@
 .THIS.container {
   width: 320px;
-  height: 480px;
+  height: 600px;
   display: inline-block;
   vertical-align: top;
   background: #C0C0C0;
   border: 1px solid #606060;
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+.THIS canvas {
+  width: 312px;
+  height: 232px;  
+}
+
+.THIS canvas.preview {
+  width: 312px;
+  height: 312px;    
 }
 
 .THIS .list {

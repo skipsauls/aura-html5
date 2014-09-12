@@ -1,7 +1,7 @@
 <aura:component extensible="true">
-  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
   <aura:attribute name="backboneContent" type="String" default="TBD"/>
-  <html5:requires script="/js/backbone_all.js" callback="{!c.backboneLoaded}" />
+  <html5:requires/>
+  <aura:handler event="html5:requiresReady" action="{!c.initScripts}"/>  
   <div aura:id="content">
     <button class="testBackbone">Test backbone</button>
     <aura:if isTrue="{!v.backboneContent != null}">

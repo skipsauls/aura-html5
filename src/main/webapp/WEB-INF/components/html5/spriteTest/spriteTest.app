@@ -1,0 +1,41 @@
+<aura:application>
+  <html5:scroller image="/img/sf_skyline_2240x256.jpg" width="320" height="480" debug="true"/>
+  <html5:sprite
+    aura:id="saasy"
+    name="saasy"
+    type="animated"
+    imageURL="/img/saasy_sprites_270x90.png"
+    positionX="160"
+    positionY="120"
+    frames="3"
+    fps="12"
+  />
+  <html5:sprite
+    aura:id="flappy"
+    name="flappy"
+    type="animated"
+    imageURL="/img/flappy_sprites_51x17.png"
+    positionX="50"
+    positionY="20"
+    frames="3"
+    fps="12"
+    scaleX="0.5"
+    scaleY="0.5"
+    speedX="4"
+    speedY="4"
+  />
+  <html5:sprite
+    aura:id="sf_logo"
+    name="sf_logo"
+    type="static"
+    imageURL="/img/sf_logo_370x268.png"
+    positionX="320"
+    positionY="120"
+    frames="1"
+    fps="0"
+    scaleX="0.2"
+    scaleY="0.2"
+    pin="true"
+  />
+    
+</aura:application>

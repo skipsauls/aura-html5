@@ -1,0 +1,27 @@
+.THIS {
+
+}
+
+.THIS .left {
+  float: left;
+}
+
+.THIS .right {
+  float: left;
+}
+
+.THIS .row {
+  clear: both;  
+}
+
+.THIS .row div {
+
+}
+
+.THIS h1 {
+  margin: 5px auto 0;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 12px;
+  text-align: center;
+}

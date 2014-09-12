@@ -5,22 +5,13 @@
     scrollVal = scrollVal < 0 ? 0 : scrollVal;
     
     var gameData = {
-      // component : null,
-      // mode : "game",
-      gameStep : "intro",
-      showGrid : false,
-      showDebug : false,
-      running : false,
-      scrollImg : null,
-      columnImg : null,
-      columnTopImg : null,
-      columnBottomImg : null,
       canvasWidth : 0,
       canvasHeight : 0,
       scrollVal : scrollVal,
       speed : 0,
       imgWidth : 0,
       imgHeight : 0,
+      imgRatio: 1,
       fieldSize : {
         w: 512,
         h: 384
@@ -36,7 +27,7 @@
       gameTitle : "Flappy SaaSy",
       gamePosition : 0,
       flappySpriteName : null,
-      statisSpriteName : null,
+      staticSpriteName : null,
       spriteRect : {},
       sprites : {},
       columns : {},
@@ -50,6 +41,9 @@
         h: 200
       },
       score : 0,
+      tscore: 0,
+      collisions: {},
+      _collisions: {},
       frameStats : {
         count: 0,
         fps: 0,
@@ -69,111 +63,6 @@
       // Generated
       keyCodeActionMap : {},
 
-      containerSizes : {
-        desktop: {
-          w: 1024,
-          h: 768
-        },
-        tablet: {
-          w: 1024,
-          h: 768
-        },
-        phone: {
-          w: 480,
-          h: 320
-        },
-        iPhone5: {
-          w: 480,
-          h: 320
-        }
-      }
-    };
-    
-    
-    // this.component = null,
-    // this.mode = "game",
-    this.gameStep = "intro",
-    this.showGrid = false;
-    this.showDebug = false;
-    this.running = false;
-    this.scrollImg = null;
-    this.columnImg = null;
-    this.columnTopImg = null;
-    this.columnBottomImg = null;
-    this.canvasWidth = 0;
-    this.canvasHeight = 0;
-    this.scrollVal = this.scrollVal || -10000;
-    this.scrollVal = this.scollVal < 0 ? 0 : this.scrollVal;
-    this.speed = 0;
-    this.imgWidth = 0;
-    this.imgHeight = 0;
-    this.fieldSize = {
-      w: 512,
-      h: 384
-    };
-    this.fieldScaling = {
-      x: 1,
-      y: 1
-    };
-    this.gridPosition = 0;
-    this.gridSize = 32;
-    this.gridOffset = 0;
-    this.gridSpeed = 0;
-    this.gameTitle = "Flappy SaaSy"
-    this.gamePosition = 0;
-    this.flappySpriteName = null;
-    this.statisSpriteName = null,
-    this.spriteRect = {};
-    this.sprites = {};
-    this.columns = {};
-    this.timeout = null;
-    this.animationFrame = null;
-    this.canvas = null;
-    this.ctx = null;
-    this.debugInfo = {};
-    this.debugSize = {
-      w: 200,
-      h: 200
-    };
-    this.score = 0;
-    this.frameStats = {
-      count: 0,
-      fps: 0,
-      oldtime: 0,
-      lastUpdate: 0
-    };
-
-    this.actionKeyCodeMap = {
-      setup: 115,
-      resetGame: 114,
-      jump: 32,
-      toggleRunning: 15,
-      toggleDebug: 27,
-      toggleGrid: 8
-    };
-
-    // Generated
-    this.keyCodeActionMap = {};
-
-    this.containerSizes = {
-      desktop: {
-        w: 1024,
-        h: 768
-      },
-      tablet: {
-        w: 1024,
-        h: 768
-      },
-      phone: {
-        w: 480,
-        h: 320
-      },
-      iPhone5: {
-        w: 480,
-        h: 320
-      }
-
-
     };
     
     return gameData;
@@ -184,22 +73,18 @@
     var gameData = this.setupGameData();
     component.setValue("v.gameData", gameData);
     
-    // this.component = component;
-    
     this.setupAnimationFrame();
     this.setupKeyCodeActionMap(component);
     var self = this;
     setTimeout(function() {
 
       var container = component.find("container").getElement();
-      console.warn("container: ", container);
       var promo = component.find("promo").getElement();
 
       $A.util.addClass(promo, "fade-out");
       $A.util.addClass(document.body, "fade-to-black");
       
       var canvas = component.find("canvas").getElement();
-      console.warn("canvas: ", canvas);
 
       // Using the canvas name to get the client type...
       // Sketchy?
@@ -210,35 +95,8 @@
         client = "iPhone5";
       }
 
-      console.warn("client: ", client);
-
-      console.warn("container size: ", container.clientWidth, container.clientHeight);
-      
       canvas.width = container.clientWidth;
       canvas.height = container.clientHeight;
-      /*
-       * 
-       * 
-       * container.style.width = self.containerSizes[client].w + "px"; container.style.height = self.containerSizes[client].h + "px";
-       * 
-       * 
-       * console.warn("container size: ", container.style.width, container.style.height);
-       * 
-       * console.warn("window size: ", window.innerWidth, window.innerHeight);
-       * 
-       * self.debugInfo.windowSize = window.innerWidth + ", " + window.innerHeight;
-       * 
-       * if (window.innerWidth < window.innerHeight) { var d = canvas.width; canvas.width = canvas.height; canvas.height = d;
-       * 
-       * var s = container.style.width; container.style.width = container.style.height; container.style.height = s; //container.width = container.style.width;
-       * //container.height = container.style.height; }
-       */
-      /*
-       * if (canvas.width > window.innerWidth || canvas.height > window.innerHeight) { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-       * 
-       * if (window.innerWidth > window.innerHeight) { canvas.width = Math.min(canvas.width, 384); canvas.height = Math.round(canvas.width * 0.75); } else {
-       * canvas.height = Math.min(canvas.width, 512); canvas.width = Math.round(canvas.height * 0.75); }
-       */
       
       var maxW = 384;
       var maxH = 512;
@@ -249,27 +107,16 @@
         maxH = t;
       }
       
-      // canvas.width = Math.min(window.innerWidth, maxW);
-      // canvas.height = Math.min(window.innerHeight, maxH);
-      
       canvas.width = maxW;
       canvas.height = maxH;
       
-      /*
-       * if (window.innerWidth > window.innerHeight) { canvas.width = 512; canvas.height = 384; } else { canvas.height = 512; canvas.width = 384; }
-       */
-      
-      console.warn("canvas size: ", canvas.width, canvas.height);
-      console.warn("container size: ", container.width, container.height);
-
       // Set scaling to 1 as this is a fixed-size grid
       var sx = 1; // (window.innerWidth / canvas.width);
       var sy = 1; // (window.innerHeight / canvas.height);
 
-      self.fieldScaling.x = sx;
-      self.fieldScaling.y = sy;
-      self.debugInfo.scaling = self.fieldScaling.x + ", " + self.fieldScaling.y;
-
+      gameData.fieldScaling.x = sx;
+      gameData.fieldScaling.y = sy;
+      gameData.debugInfo.scaling = gameData.fieldScaling.x + ", " + gameData.fieldScaling.y;
 
       self.setup(component, event);
 
@@ -277,37 +124,35 @@
   },
 
   toggleControls: function(component, event) {
-    this.showControls = !component.get("v.showControls");
-    component.setValue("v.showControls", this.showControls);
+    var showControls = !component.get("v.showControls");
+    component.setValue("v.showControls", showControls);
   },
 
   toggleGrid: function(component, event) {
-    this.showGrid = !component.get("v.showGrid");
-    component.setValue("v.showGrid", this.showGrid);
+    var showGrid = !component.get("v.showGrid");
+    component.setValue("v.showGrid", showGrid);
   },
 
   toggleDebug: function(component, args) {
-    this.showDebug = !component.get("v.showDebug");
-    component.setValue("v.showDebug", this.showDebug);
+    var showDebug = !component.get("v.showDebug");
+    component.setValue("v.showDebug", showDebug);
   },
 
   toggleMode: function(component, args) {
     var mode = component.get("v.mode");
     mode = mode === "game" ? "debug" : "game";
     component.setValue("v.mode", mode);
-    this.debugInfo.mode = mode;
+    gameData.debugInfo.mode = mode;
   },
 
   toggleRunning: function(component, event) {
-    this.running = component.get("v.running");
-    if (this.running) {
+    var running = component.get("v.running");
+    if (running) {
       this.endGame(component);
     } else {
       this.startGame(component);
-      // this.showControls = !component.get("v.showControls");
-      // component.setValue("v.showControls", this.showControls);
     }
-    component.setValue("v.running", !this.running);
+    component.setValue("v.running", !running);
   },
 
   // Adapted from:
@@ -343,90 +188,94 @@
   },
 
   setupKeyCodeActionMap: function(component) {
+    var gameData = component.get("v.gameData");
     var actionKeyCodes = component.get("v.actionKeyCodes");
     var actionKeyPairs = actionKeyCodes.split(",");
     for (var i = 0; i < actionKeyPairs.length; i++) {
       var p = actionKeyPairs[i].split(":");
       var action = p[0];
       var keyCode = p[1];
-      this.actionKeyCodeMap[action] = keyCode;
+      gameData.actionKeyCodeMap[action] = keyCode;
     }
 
-    console.warn("this.actionKeyCodeMap: ", this.actionKeyCodeMap);
+    console.warn("gameData.actionKeyCodeMap: ", gameData.actionKeyCodeMap);
 
     // Generate keyCodeActionMap - Need to check for collisions!
-    this.keyCodeActionMap = {};
-    for ( var action in this.actionKeyCodeMap) {
-      this.keyCodeActionMap[this.actionKeyCodeMap[action]] = action;
+    gameData.keyCodeActionMap = {};
+    for ( var action in gameData.actionKeyCodeMap) {
+      gameData.keyCodeActionMap[gameData.actionKeyCodeMap[action]] = action;
     }
 
-    console.warn("this.keyCodeActionMap: ", this.keyCodeActionMap);
+    console.warn("gameData.keyCodeActionMap: ", gameData.keyCodeActionMap);
   },
 
-  setup: function(component, event) {
+  setup: function(component, event) {    
+    var gameData = component.get("v.gameData");
+    
     this.resetGame(component, event);
     this.addSprites(component);
     
-    // this.scrollVal = 0;
-    this.gamePosition = 0;
-    this.gridPosition = 32;
+    gameData.gamePosition = 0;
+    gameData.gridPosition = 32;
 
     var mode = component.get("v.mode");
-    this.gridSize = component.get("v.gridSize");
-    this.showGrid = component.get("v.showGrid");
-    this.showDebug = component.get("v.showDebug");
-    this.gameTitle = component.get("v.gameTitle");
+    gameData.gridSize = component.get("v.gridSize");
+    showGrid = component.get("v.showGrid");
+    showDebug = component.get("v.showDebug");
+    gameData.gameTitle = component.get("v.gameTitle");
+    
+    var imageMap = component.get("v.imageMap");
+    imageMap = imageMap || {};
+    component.setValue("v.imageMap", imageMap);
     
     var canvas = component.find("canvas").getElement();
     var ctx = canvas.getContext("2d");
 
-    // ctx.save();
-    ctx.scale(this.fieldScaling.x, this.fieldScaling.y);
+    ctx.scale(gameData.fieldScaling.x, gameData.fieldScaling.y);
 
-    this.canvas = canvas;
-    this.ctx = ctx;
-    this.ctx.globalAlpha = 0.01;
+    gameData.canvas = canvas;
+    gameData.ctx = ctx;
+    gameData.ctx.globalAlpha = 0.01;
 
-    this.scrollImg = new Image();
-    this.scrollImg.src = component.get("v.backgroundURL");
-    this.canvasWidth = canvas.width;
-    this.canvasHeight = canvas.height;
+    imageMap["scrollImg"] = new Image();
+    imageMap["scrollImg"].src = component.get("v.backgroundURL");
+    gameData.canvasWidth = canvas.width;
+    gameData.canvasHeight = canvas.height;
     // his.scrollVal = 0;
-    this.speed = 0.5;
-    this.gridSpeed = 2;
+    gameData.speed = 0.5;
+    gameData.gridSpeed = 2;
 
     this.createColumns(component);
 
-    this.columnImg = new Image();
-    this.columnImg.src = component.get("v.columnURL");
-    this.columnTopImg = new Image();
-    this.columnTopImg.src = component.get("v.columnTopURL");
-    this.columnBottomImg = new Image();
-    this.columnBottomImg.src = component.get("v.columnBottomURL");
+    imageMap["columnImg"] = new Image();
+    imageMap["columnImg"].src = component.get("v.columnURL");
+    imageMap["columnTopImg"] = new Image();
+    imageMap["columnTopImg"].src = component.get("v.columnTopURL");
+    imageMap["columnBottomImg"] = new Image();
+    imageMap["columnBottomImg"].src = component.get("v.columnBottomURL");
     
     var self = this;
-    this.scrollImg.onload = function() {
-      console.warn("loadImage");
-      self.imgWidth = self.scrollImg.width;
-      self.imgHeight = self.scrollImg.height;
-      console.warn("self.canvasWidth: ", self.canvasWidth);
-      console.warn("self.canvasHeight: ", self.canvasHeight);
-      console.warn("self.imgWidth: ", self.imgWidth);
-      console.warn("self.imgHeight: ", self.imgHeight);
-      console.warn("self.fieldSize: ", self.fielSize);
+    imageMap["scrollImg"].onload = function() {
+      gameData.imgWidth = imageMap["scrollImg"].width;
+      gameData.imgHeight = imageMap["scrollImg"].height;
+      console.warn("gameData.canvasWidth: ", gameData.canvasWidth);
+      console.warn("gameData.canvasHeight: ", gameData.canvasHeight);
+      console.warn("gameData.imgWidth: ", gameData.imgWidth);
+      console.warn("gameData.imgHeight: ", gameData.imgHeight);
+      console.warn("gameData.fieldSize: ", gameData.fieldSize);
 
-      self.imgRatio = self.fieldSize.h / self.imgHeight;
-      console.warn("self.imgRatio: ", self.imgRatio);
-      self.speed = 1 / self.imgRatio;
+      gameData.imgRatio = gameData.fieldSize.h / gameData.imgHeight;
+      console.warn("gameData.imgRatio: ", gameData.imgRatio);
+      gameData.speed = 1 / gameData.imgRatio;
 
-      self.gridOffset = ((self.canvasWidth / self.gridSize) / 2);
-      self.gamePosition = -self.gridOffset;
+      gameData.gridOffset = ((gameData.canvasWidth / gameData.gridSize) / 2);
+      gameData.gamePosition = -gameData.gridOffset;
 
-      console.warn("gridOffset: ", self.gridOffset);
-      console.warn("sprites: ", self.sprites);
+      console.warn("gridOffset: ", gameData.gridOffset);
+      console.warn("sprites: ", gameData.sprites);
       
       // Turn on flappy
-      self.sprites[self.flappySpriteName].display = true;
+      gameData.sprites[gameData.flappySpriteName].display = true;
       
       if (mode === "game") {
         self.playIntro(component, event);
@@ -443,9 +292,9 @@
   // This will be customized for different games
   // May be parameterized?
   addSprites: function(component) {
-    this.flappySpriteName = component.get("v.flappySpriteName");
-    
-    this.staticSpritesName = component.get("v.staticSpritesName");
+    var gameData = component.get("v.gameData");
+    gameData.flappySpriteName = component.get("v.flappySpriteName");
+    gameData.staticSpritesName = component.get("v.staticSpritesName");
 
     var canvas = component.find("canvas").getElement();
     var ctx = canvas.getContext("2d");
@@ -453,7 +302,7 @@
     params = {
       canvas: canvas,
       ctx: ctx,
-      name: this.flappySpriteName,
+      name: gameData.flappySpriteName,
       command: "init",
       args: null
     }
@@ -461,77 +310,81 @@
   },
   
   resetGame: function(component, event) {
-    // this.scrollVal = 0;
-    this.gridPosition = 0;
-    this.gamePosition = 0;
-    this.score = 0;
-    console.warn("-----------------------------------------------");
+    var gameData = component.get("v.gameData");
+    gameData.gamePosition = 0;
+    gameData.score = 0;
     component.setValue("v.gameStep", "intro");
   },
 
   playIntro: function(component, event) {
-    this.gridSize = 128;
-    var sprite = this.sprites[this.flappySpriteName];
-    var midY = (this.canvasHeight - sprite.bounds.h) / 2;
+    var gameData = component.get("v.gameData");
+    gameData.gridSize = 128;
+    var sprite = gameData.sprites[gameData.flappySpriteName];
+    var midY = (gameData.canvasHeight - sprite.bounds.h) / 2;
     sprite.bounds.y = midY;
-    sprite.dest.y = midY - this.gridSize * 1;
+    sprite.dest.y = midY - gameData.gridSize * 1;
     this.startAnimation(component);
-    this.showControls = false;
-    component.setValue("v.showControls", this.showControls);    
+    component.setValue("v.showControls", false);    
   },
 
   startGame: function(component, event) {
-    this.gridSize = component.get("v.gridSize"); // 32;
-    this.gamePosition = 0;// -8;
+    var gameData = component.get("v.gameData");
+    gameData.gridSize = component.get("v.gridSize"); // 32;
+    gameData.gamePosition = 0;// -8;
     component.setValue("v.gameStep", "game");
-    this._collisions = {};
-    this.score = 0;
+    gameData._collisions = {};
+    gameData.score = 0;
     
-    var sprite = this.sprites[this.flappySpriteName];
-    var midY = (this.canvasHeight - sprite.bounds.h) / 2;
+    var sprite = gameData.sprites[gameData.flappySpriteName];
+    var midY = (gameData.canvasHeight - sprite.bounds.h) / 2;
     sprite.bounds.y = midY;
-    sprite.dest.y = midY - this.gridSize * 1;
+    sprite.dest.y = midY - gameData.gridSize * 1;
     
-    // this.startAnimation(component);
-    this.showControls = false;
-    component.setValue("v.showControls", this.showControls);    
+    component.setValue("v.showControls", false);    
   },
   
   endGame: function(component, canvas, ctx) {
+    console.warn("endGame");
+    var gameData = component.get("v.gameData");
     component.setValue("v.gameStep", "ending");
-    this.gamePosition -= 1;
-    // this.gridPosition -= 1;
+    gameData.gamePosition -= 1;
   },
   
   gameOver: function(component, canvas, ctx) {
+    console.warn("gameOver");
+    var gameData = component.get("v.gameData");
     component.setValue("v.gameStep", "end");    
-    window.cancelAnimationFrame(this.animationFrame);
+    window.cancelAnimationFrame(gameData.animationFrame);
   },
   
   startAnimation: function(component) {
+    var gameData = component.get("v.gameData");
     var canvas = component.find("canvas").getElement();
     var ctx = canvas.getContext("2d");
 
     var self = this;
-    self.frameStats.oldtime = 0;
-    self.frameStats.lastUpdate = 0;
+    gameData.frameStats.oldtime = 0;
+    gameData.frameStats.lastUpdate = 0;
     function gameLoop(time) {
-      self.frameStats.fps = Math.round(1000 / (time - self.frameStats.oldtime));
-      self.frameStats.oldtime = time;
+      gameData.frameStats.fps = Math.round(1000 / (time - gameData.frameStats.oldtime));
+      gameData.frameStats.oldtime = time;
       var s = Math.floor(time / 500);
-      if (self.frameStats.lastUpdate != s) {
-        self.debugInfo.fps = self.frameStats.fps;
-        self.frameStats.lastUpdate = s;
+      if (gameData.frameStats.lastUpdate != s) {
+        gameData.debugInfo.fps = gameData.frameStats.fps;
+        gameData.frameStats.lastUpdate = s;
       }
 
-      self.animationFrame = window.requestAnimationFrame(gameLoop);
-      self.render(component, self.canvas, self.ctx);
+      gameData.animationFrame = window.requestAnimationFrame(gameLoop);
+      $A.run(function() {
+        self.render(component, gameData.canvas, gameData.ctx);
+      });       
     }
     gameLoop();
   },
 
   stopAnimation: function(component) {
-    window.cancelAnimationFrame(this.animationFrame);
+    var gameData = component.get("v.gameData");
+    window.cancelAnimationFrame(gameData.animationFrame);
   },
 
   checkBitmapCollision: function(imageData1, imageData2, length) {
@@ -568,37 +421,40 @@
 
   render: function(component, canvas, ctx) {
     
+    var gameData = component.get("v.gameData");
+    
     if (ctx.globalAlpha < 1) {
       ctx.globalAlpha += 0.01;
     }
-    ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+    ctx.clearRect(0, 0, gameData.canvasWidth, gameData.canvasHeight);
 
     var gameStep = component.get("v.gameStep");
+    var showGrid = component.get("v.showGrid");
+    
     if (gameStep === "ending" || gameStep === "end") {
       
     } else {
-      if (this.scrollVal <= this.speed) {
-        // this.scrollVal = this.canvasWidth - this.speed;
-        this.scrollVal = this.imgWidth - this.speed;
+      if (gameData.scrollVal <= gameData.speed) {
+        gameData.scrollVal = gameData.imgWidth - gameData.speed;
       }
-      this.scrollVal -= this.speed;
+      gameData.scrollVal -= gameData.speed;
 
-      this.gridPosition += this.gridSpeed;
-      if (this.gridPosition % this.gridSize === 0) {
-        this.gamePosition++;
+      gameData.gridPosition += gameData.gridSpeed;
+      if (gameData.gridPosition % gameData.gridSize === 0) {
+        gameData.gamePosition++;
       }
     }
 
     this.drawBackground(component, canvas, ctx);
 
-    var maxY = this.canvasHeight - this.gridSize * 3;
+    var maxY = gameData.canvasHeight - gameData.gridSize * 3;
 
-    this.debugInfo.spriteY = this.spriteRect.y;
-    this.debugInfo.maxY = maxY;
+    gameData.debugInfo.spriteY = gameData.spriteRect.y;
+    gameData.debugInfo.maxY = maxY;
     
     var collision = false;
     
-    if (this.spriteRect.y >= maxY) {
+    if (gameData.spriteRect.y >= maxY) {
       collision = true;
     } else {
       collision = this.checkCollision(component, canvas, ctx);
@@ -609,14 +465,14 @@
       this.endGame(component, canvas, ctx);
     }
     
-    var p = this.gamePosition + this.gridOffset;
+    var p = gameData.gamePosition + gameData.gridOffset;
 
-    this.debugInfo.bitmapCollision = collision + " at " + p;
+    gameData.debugInfo.bitmapCollision = collision + " at " + p;
 
-    this._collisions = this._collisions || {};
-    if (typeof this.columns[p] !== "undefined") {
-      if (this._collisions[p] !== true) {
-        this._collisions[p] = collision;
+    gameData._collisions = gameData._collisions || {};
+    if (typeof gameData.columns[p] !== "undefined") {
+      if (gameData._collisions[p] !== true) {
+        gameData._collisions[p] = collision;
       }
     }
 
@@ -624,75 +480,74 @@
     var t = 0;
     var x = 0;
     var y = 0;
-    for ( var i in this._collisions) {
-      s += this._collisions[i] || 0; // === true && this.columns[i] ? 1 : 0;
+    for ( var i in gameData._collisions) {
+      s += gameData._collisions[i] || 0; // === true && gameData.columns[i] ? 1 : 0;
       t++;
     }
-    this.score = t - s;
+    gameData.score = t - s;
 
-    this.drawColumns(component, canvas, ctx, this.showGrid);
+    this.drawColumns(component, canvas, ctx, showGrid);
 
     this.drawSprites(component, canvas, ctx);
 
     this.drawForeground(component, canvas, ctx);
     this.drawStatus(component, canvas, ctx);
 
-    if (this.showGrid) {
+    if (showGrid) {
       this.drawGrid(component, canvas, ctx);
     }
 
-    if (this.showDebug) {
+    if (showDebug) {
       this.drawDebug(component, canvas, ctx);
     }
 
   },
 
   checkCollision: function(component, canvas, ctx) {
-    var sprite = this.sprites[this.flappySpriteName];
+    var gameData = component.get("v.gameData");
+    var sprite = gameData.sprites[gameData.flappySpriteName];
     
     var spriteRect = {
-      x: sprite.bounds.x + ((sprite.bounds.w - this.gridSize) / 2),
-      y: sprite.bounds.y + ((sprite.bounds.h - this.gridSize) / 2),
-      w: this.gridSize, // sprite.bounds.w,
-      h: this.gridSize
+      x: sprite.bounds.x + ((sprite.bounds.w - gameData.gridSize) / 2),
+      y: sprite.bounds.y + ((sprite.bounds.h - gameData.gridSize) / 2),
+      w: gameData.gridSize, // sprite.bounds.w,
+      h: gameData.gridSize
     // sprite.bounds.h
     };
 
     // Move canvas creation to setup
-    if (typeof this.canvas2 === "undefined") {
-      this.canvas2 = document.createElement("canvas");
-      this.canvas2.width = canvas.width;
-      this.canvas2.height = canvas.height;
-      this.ctx2 = this.canvas2.getContext("2d");
+    if (typeof gameData.canvas2 === "undefined") {
+      gameData.canvas2 = document.createElement("canvas");
+      gameData.canvas2.width = canvas.width;
+      gameData.canvas2.height = canvas.height;
+      gameData.ctx2 = gameData.canvas2.getContext("2d");
     }
 
-    this.ctx2.clearRect(0, 0, this.canvas2.width, this.canvas2.height);
+    gameData.ctx2.clearRect(0, 0, gameData.canvas2.width, gameData.canvas2.height);
     
     // Do not draw grid when checking collisions
-    this.drawColumns(component, this.canvas2, this.ctx2, false);
+    this.drawColumns(component, gameData.canvas2, gameData.ctx2, false);
 
-    this.debugInfo.columnsPassed = this.debugInfo.columnsPassed || 0;
+    gameData.debugInfo.columnsPassed = gameData.debugInfo.columnsPassed || 0;
 
     // var imageData1 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
-    var imageData1 = this.ctx2.getImageData(spriteRect.x, spriteRect.y, spriteRect.w, spriteRect.h);
+    var imageData1 = gameData.ctx2.getImageData(spriteRect.x, spriteRect.y, spriteRect.w, spriteRect.h);
 
-    this.ctx2.clearRect(0, 0, this.canvas2.width, this.canvas2.height);
-    this.drawSprites(component, this.canvas2, this.ctx2);
-    // var imageData2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
-    var imageData2 = this.ctx2.getImageData(spriteRect.x, spriteRect.y, spriteRect.w, spriteRect.h);
+    gameData.ctx2.clearRect(0, 0, gameData.canvas2.width, gameData.canvas2.height);
+    this.drawSprites(component, gameData.canvas2, gameData.ctx2);
+    var imageData2 = gameData.ctx2.getImageData(spriteRect.x, spriteRect.y, spriteRect.w, spriteRect.h);
 
-    this.ctx2.clearRect(0, 0, this.canvas2.width, this.canvas2.height);
-    var imageData3 = this.ctx2.getImageData(spriteRect.x, spriteRect.y, spriteRect.w, spriteRect.h);
+    gameData.ctx2.clearRect(0, 0, gameData.canvas2.width, gameData.canvas2.height);
+    var imageData3 = gameData.ctx2.getImageData(spriteRect.x, spriteRect.y, spriteRect.w, spriteRect.h);
 
     this.getBitmapCollisionData(imageData1.data, imageData2.data, imageData3.data, spriteRect.w * spriteRect.h);
 
     var collision = this.checkBitmapCollision(imageData1.data, imageData2.data, spriteRect.w * spriteRect.h);
 
-    var gameStep = component.get("v.gameStep");
-    if (this.showDebug && this.gameStep !== "intro") {
+    if (component.get("v.showDebug") && component.get("v.gameStep") !== "intro") {
       ctx.putImageData(imageData1, 0, 0);
-      ctx.putImageData(imageData2, 0, this.gridSize);
-      ctx.putImageData(imageData3, 0, this.gridSize * 2);
+      ctx.putImageData(imageData2, 0, gameData.gridSize);
+      ctx.putImageData(imageData3, 0, gameData.gridSize * 2);
     }
     
 
@@ -703,10 +558,12 @@
    * Draws the background, very simple scroller
    */
   drawBackground: function(component, canvas, ctx) {
+    var gameData = component.get("v.gameData");
+    var imageMap = component.get("v.imageMap");
     ctx.save();
-    ctx.scale(this.imgRatio, 1);
-    ctx.drawImage(this.scrollImg, this.imgWidth - this.scrollVal, 0, this.scrollVal, this.imgHeight, 0, 0, this.scrollVal, this.canvasHeight);
-    ctx.drawImage(this.scrollImg, this.scrollVal, 0, this.imgWidth, this.canvasHeight);
+    ctx.scale(gameData.imgRatio, 1);
+    ctx.drawImage(imageMap["scrollImg"], gameData.imgWidth - gameData.scrollVal, 0, gameData.scrollVal, gameData.imgHeight, 0, 0, gameData.scrollVal, gameData.canvasHeight);
+    ctx.drawImage(imageMap["scrollImg"], gameData.scrollVal, 0, gameData.imgWidth, gameData.canvasHeight);
     ctx.restore();
   },
 
@@ -733,106 +590,108 @@
   // Draws the columns
   // Returns true if the sprite has passed the current column
   drawColumns: function(component, canvas, ctx, showGrid) {
-
     var gameStep = component.get("v.gameStep");
     if (gameStep === "intro") {
       return;
     }
-    
+
+    var gameData = component.get("v.gameData");
+    var imageMap = component.get("v.imageMap");
+
     var coll = false;
 
-    this.debugInfo.gridPosition = this.gridPosition;
-    this.debugInfo.gamePosition = this.gamePosition;
+    gameData.debugInfo.gridPosition = gameData.gridPosition;
+    gameData.debugInfo.gamePosition = gameData.gamePosition;
 
     ctx.strokeStyle = "white";
     var y0 = 0;
-    var y1 = this.canvasHeight - 1;
+    var y1 = gameData.canvasHeight - 1;
     var y2 = 0;
-    var startX = this.gridSize - (this.gridPosition % this.gridSize);
-    startX -= this.gridSize;
-    var g = this.gamePosition;
+    var startX = gameData.gridSize - (gameData.gridPosition % gameData.gridSize);
+    startX -= gameData.gridSize;
+    var g = gameData.gamePosition;
     var checkRect = {
-      x: (this.canvasWidth / 2) - this.gridSize,
+      x: (gameData.canvasWidth / 2) - gameData.gridSize,
       y: 0,
-      w: (this.gridSize * 2),
-      h: this.canvasHeight
+      w: (gameData.gridSize * 2),
+      h: gameData.canvasHeight
     };
     var columnRect = {
       x: 0,
       y: 0,
-      w: this.gridSize,
-      h: (this.gridSize * 2)
+      w: gameData.gridSize,
+      h: (gameData.gridSize * 2)
     };
     var topRect = {
       x: 0,
       y: 0,
-      w: this.gridSize,
-      h: (this.gridSize * 2)
+      w: gameData.gridSize,
+      h: (gameData.gridSize * 2)
     };
     var bottomRect = {
       x: 0,
       y: 0,
-      w: this.gridSize,
-      h: (this.gridSize * 2)
+      w: gameData.gridSize,
+      h: (gameData.gridSize * 2)
     };
     var gapRect = {
       x: 0,
       y: 0,
-      w: this.gridSize,
-      h: (this.gridSize * 3)
+      w: gameData.gridSize,
+      h: (gameData.gridSize * 3)
     };
 
-    var sprite = this.sprites[this.flappySpriteName];
+    var sprite = gameData.sprites[gameData.flappySpriteName];
     var spriteRect = {
-      x: sprite.bounds.x + ((sprite.bounds.w - this.gridSize) / 2),
-      y: sprite.bounds.y + ((sprite.bounds.h - this.gridSize) / 2),
-      w: this.gridSize, // sprite.bounds.w,
-      h: this.gridSize
+      x: sprite.bounds.x + ((sprite.bounds.w - gameData.gridSize) / 2),
+      y: sprite.bounds.y + ((sprite.bounds.h - gameData.gridSize) / 2),
+      w: gameData.gridSize, // sprite.bounds.w,
+      h: gameData.gridSize
     // sprite.bounds.h
     };
 
     spriteRect.w *= sprite.scale.x;
     spriteRect.h *= sprite.scale.y;
 
-    for (var x = startX; x <= this.canvasWidth; x += this.gridSize) {
-      if (this.columns[g]) {
-        y2 = (this.columns[g] + 1) * this.gridSize;
+    for (var x = startX; x <= gameData.canvasWidth; x += gameData.gridSize) {
+      if (gameData.columns[g]) {
+        y2 = (gameData.columns[g] + 1) * gameData.gridSize;
         /*
-         * ctx.beginPath(); ctx.rect(x, y0, this.gridSize, this.gridSize * this.columns[g]); ctx.rect(x, y2, this.gridSize, this.canvasHeight - y2);
+         * ctx.beginPath(); ctx.rect(x, y0, gameData.gridSize, gameData.gridSize * gameData.columns[g]); ctx.rect(x, y2, gameData.gridSize, gameData.canvasHeight - y2);
          * ctx.fillStyle = "yellow"; ctx.fill();
          */
-        ctx.drawImage(this.columnTopImg, x, y0, this.gridSize, this.gridSize);
-        for (var y = y0 + this.gridSize; y < (y2 - (this.gridSize * 2)); y += this.gridSize) {
-          ctx.drawImage(this.columnImg, x, y, this.gridSize, this.gridSize);
+        ctx.drawImage(imageMap["columnTopImg"], x, y0, gameData.gridSize, gameData.gridSize);
+        for (var y = y0 + gameData.gridSize; y < (y2 - (gameData.gridSize * 2)); y += gameData.gridSize) {
+          ctx.drawImage(imageMap["columnImg"], x, y, gameData.gridSize, gameData.gridSize);
         }
-        ctx.drawImage(this.columnBottomImg, x, y, this.gridSize, this.gridSize);
+        ctx.drawImage(imageMap["columnBottomImg"], x, y, gameData.gridSize, gameData.gridSize);
 
         columnRect = {
           x: x,
           y: 0,
-          w: this.gridSize,
-          h: this.gridHeight - 1
+          w: gameData.gridSize,
+          h: gameData.gridHeight - 1
         };
 
         topRect = {
           x: x,
           y: y0,
-          w: this.gridSize,
-          h: (y2 - (this.gridSize * 1))
+          w: gameData.gridSize,
+          h: (y2 - (gameData.gridSize * 1))
         };
 
-        y2 += (this.gridSize * 2);
+        y2 += (gameData.gridSize * 2);
 
-        ctx.drawImage(this.columnTopImg, x, y2, this.gridSize, this.gridSize);
-        for (var y = (y2 + this.gridSize); y <= this.canvasHeight; y += this.gridSize) {
-          ctx.drawImage(this.columnImg, x, y, this.gridSize, this.gridSize);
+        ctx.drawImage(imageMap["columnTopImg"], x, y2, gameData.gridSize, gameData.gridSize);
+        for (var y = (y2 + gameData.gridSize); y <= gameData.canvasHeight; y += gameData.gridSize) {
+          ctx.drawImage(imageMap["columnImg"], x, y, gameData.gridSize, gameData.gridSize);
         }
 
         bottomRect = {
           x: x,
           y: y2,
-          w: this.gridSize,
-          h: this.canvasHeight - y2
+          w: gameData.gridSize,
+          h: gameData.canvasHeight - y2
         };
 
         /*
@@ -848,26 +707,26 @@
 
         var overlap = this.intersect(checkRect, gapRect);
 
-        this.collisions = this.collisions || {};
+        gameData.collisions = gameData.collisions || {};
 
-        if (overlap && 2 > this.showGrid === true) {
+        if (overlap && 2 > showGrid === true) {
 
           var collision = this.intersect(spriteRect, topRect) || this.intersect(spriteRect, bottomRect);
 
           if (collision) {
-            if (typeof this.collisions[g] === "undefined") {
-              this.collisions[g] = 1;
+            if (typeof gameData.collisions[g] === "undefined") {
+              gameData.collisions[g] = 1;
             }
           }
 
-          if ((spriteRect.x > columnRect.x + columnRect.w) && typeof this.collisions[g] === "undefined") {
-            this.collisions[g] = 0;
-            this.tscore = this.tscore || 0;
-            this.tscore++;
-            this.debugInfo.tscore = this.tscore;
+          if ((spriteRect.x > columnRect.x + columnRect.w) && typeof gameData.collisions[g] === "undefined") {
+            gameData.collisions[g] = 0;
+            gameData.tscore = gameData.tscore || 0;
+            gameData.tscore++;
+            gameData.debugInfo.tscore = gameData.tscore;
           }
 
-          this.debugInfo.collision = collision;
+          gameData.debugInfo.collision = collision;
 
           if (showGrid) {
 
@@ -915,6 +774,7 @@
   // Typically will map to the spacebar, mouse, tap, etc.
   jump: function(component, event) {
     var gameStep = component.get("v.gameStep");
+    var gameData = component.get("v.gameData");
     if (gameStep === "ending") {
       // If the ending sequence is playing, do nothing
       return;
@@ -931,25 +791,25 @@
     
     this.playSound("flap");
     
-    var sprite = this.sprites[this.flappySpriteName];
+    var sprite = gameData.sprites[gameData.flappySpriteName];
 
     sprite.speed.y = 5;
     sprite.angle = sprite.angle > 15 ? 15 : sprite.angle;
 
-    sprite.bounds.y -= (this.gridSize / 4);
-    // sprite.bounds.y = sprite.bounds.y < -this.gridSize ? -this.gridSize : sprite.bounds.y;
+    sprite.bounds.y -= (gameData.gridSize / 4);
+    // sprite.bounds.y = sprite.bounds.y < -gameData.gridSize ? -gameData.gridSize : sprite.bounds.y;
     sprite.bounds.y = sprite.bounds.y < 0 ? 0 : sprite.bounds.y; 
 
     sprite.dest = {
-      x: (this.canvasWidth - this.gridSize) / 2,
-      y: sprite.bounds.y - (this.gridSize / 0.75)
+      x: (gameData.canvasWidth - gameData.gridSize) / 2,
+      y: sprite.bounds.y - (gameData.gridSize / 0.75)
     }
 
   },
 
   drawSprite: function(component, canvas, ctx, name) {
-
-    var sprite = this.sprites[name];
+    var gameData = component.get("v.gameData");
+    var sprite = gameData.sprites[name];
 
     sprite.lastTimestamp = sprite.lastTimestamp || 0;
     var currentTimestamp = Date.now();
@@ -963,33 +823,33 @@
       sprite.frameIndex = 0;
     }
 
-    this.debugInfo.frameIndex = sprite.frameIndex;
+    gameData.debugInfo.frameIndex = sprite.frameIndex;
 
-    if (sprite.name == this.flappySpriteName) {
+    if (sprite.name == gameData.flappySpriteName) {
 
-      var maxY = this.canvasHeight - this.gridSize * 2;
-      // var maxY = (this.canvasHeight - 1) - (sprite.bounds.h * 1)
+      var maxY = gameData.canvasHeight - gameData.gridSize * 2;
+      // var maxY = (gameData.canvasHeight - 1) - (sprite.bounds.h * 1)
       
       // Only for flappy games! Keeps the sprite centered on the screen.
-      this.debugInfo.gridSize = this.gridSize;
-      sprite.bounds.x = (this.canvasWidth - (sprite.scale.x * sprite.bounds.w)) / 2;
+      gameData.debugInfo.gridSize = gameData.gridSize;
+      sprite.bounds.x = (gameData.canvasWidth - (sprite.scale.x * sprite.bounds.w)) / 2;
   
   
-      this.debugInfo.spriteRect = sprite.bounds.x + ", " + sprite.bounds.y + ", " + sprite.bounds.w + ", " + sprite.bounds.h;
-      this.debugInfo.spriteDest = sprite.dest.x + ", " + sprite.dest.y;
+      gameData.debugInfo.spriteRect = sprite.bounds.x + ", " + sprite.bounds.y + ", " + sprite.bounds.w + ", " + sprite.bounds.h;
+      gameData.debugInfo.spriteDest = sprite.dest.x + ", " + sprite.dest.y;
       sprite.angle = sprite.angle || 0;
-      if (this.gameStep === "intro") {
-        var midY = (this.canvasHeight - sprite.bounds.h) / 2;
+      if (gameStep === "intro") {
+        var midY = (gameData.canvasHeight - sprite.bounds.h) / 2;
         sprite.bounds.y = midY;
         sprite.angle = 0;
-      } else if (this.gameStep === "ending" || this.gameStep === "end") {
+      } else if (gameStep === "ending" || gameStep === "end") {
         sprite.angle = 90;
       } else {
   
-        // var maxY = (this.canvasHeight - 1) - (sprite.bounds.h * 1)
-        if (sprite.bounds.y >= maxY) { // }(this.canvasHeight - 1) - (sprite.bounds.h * 1)) {
+        // var maxY = (gameData.canvasHeight - 1) - (sprite.bounds.h * 1)
+        if (sprite.bounds.y >= maxY) { // }(gameData.canvasHeight - 1) - (sprite.bounds.h * 1)) {
           sprite.angle = 0;
-          sprite.bounds.y = maxY; // (this.canvasHeight - 1) - (sprite.bounds.h * 1);
+          sprite.bounds.y = maxY; // (gameData.canvasHeight - 1) - (sprite.bounds.h * 1);
         } else if (sprite.bounds.y < sprite.dest.y) {
           sprite.angle += sprite.angle < 90 ? 4 : 0;
         } else {
@@ -1007,7 +867,7 @@
 
     ctx.rotate(sprite.angle * (Math.PI / 180));
 
-    ctx.scale(this.gridSize / sprite.bounds.w, this.gridSize / sprite.bounds.h);
+    ctx.scale(gameData.gridSize / sprite.bounds.w, gameData.gridSize / sprite.bounds.h);
 
     ctx.translate(-(sprite.bounds.x + sprite.bounds.w / 2), -(sprite.bounds.y + sprite.bounds.h / 2));
 
@@ -1026,20 +886,20 @@
      * Make sprite movement simple. Try to reach the dest if it is less (above), otherwise let gravity do its thing.
      * 
      */
-    if (sprite.name == this.flappySpriteName) {
+    if (sprite.name == gameData.flappySpriteName) {
 
-      if (this.gameStep === "end") {
+      if (gameStep === "end") {
         
-      } else if (this.gameStep === "ending") {
-        sprite.dest.y = this.canvasHeight - (sprite.bounds.h * 1);
+      } else if (gameStep === "ending") {
+        sprite.dest.y = gameData.canvasHeight - (sprite.bounds.h * 1);
         if (sprite.bounds.y <= sprite.dest.y) {
           sprite.bounds.y += sprite.speed.y
           sprite.speed.y = sprite.speed.y > 3 ? 3 : sprite.speed.y;
           sprite.speed.y += sprite.speed.y < 3 ? 0.05 : 0;
         } else {
-          this.gameStep = "end";
+          component.setValue("v.gameStep", "end");
           this.playSound("gameOver");
-          this.gameOver(null, canvas, ctx);
+          this.gameOver(component, canvas, ctx);
         }
       } else {
         if (sprite.bounds.y === sprite.dest.y && sprite.dest.y != 0) {
@@ -1048,7 +908,7 @@
           sprite.bounds.y -= sprite.speed.y;
           sprite.speed.y -= sprite.speed.y > 1 ? 0.5 : 0;
         } else {
-          sprite.dest.y = maxY; // this.canvasHeight - (sprite.bounds.h * 1);
+          sprite.dest.y = maxY; // gameData.canvasHeight - (sprite.bounds.h * 1);
           if (sprite.bounds.y <= sprite.dest.y) {
             sprite.bounds.y += sprite.speed.y
             sprite.speed.y = sprite.speed.y > 3 ? 3 : sprite.speed.y;
@@ -1063,13 +923,12 @@
 
   // This can be used to draw multiple sprites, but for this game we'll only draw flappy
   drawSprites: function(component, canvas, ctx) {
-
-    // this.drawSprite(canvas, ctx, this.flappySpriteName);
+    var gameData = component.get("v.gameData");
 
     // Loop for multiple sprites...
     var sprite = null;
-    for (var n in this.sprites) {
-      if (this.sprites[n].display === true) {
+    for (var n in gameData.sprites) {
+      if (gameData.sprites[n].display === true) {
         this.drawSprite(component, canvas, ctx, n);
       }
     }
@@ -1081,11 +940,15 @@
   },
 
   drawSpriteText: function(component, canvas, ctx, sprite, offsetName, x, y) {
-    
+    var gameData = component.get("v.gameData");
+    if (!sprite.offsets) {
+      console.warn("no offsets for sprite: ", sprite.name, sprite);
+      return;
+    }
     var offset = sprite.offsets[offsetName];
     var bounds = {
-      x: x || (this.canvasWidth - offset.w) / 2, // centered by default
-      y: y || (this.canvasHeight - offset.h) / 2, // centered by default
+      x: x || (gameData.canvasWidth - offset.w) / 2, // centered by default
+      y: y || (gameData.canvasHeight - offset.h) / 2, // centered by default
       w: offset.w * sprite.scale.x,
       h: offset.h * sprite.scale.y,
     };
@@ -1096,14 +959,15 @@
   drawStatus: function(component, canvas, ctx) {
 
     var gameStep = component.get("v.gameStep");
-    console.warn("gameStep: ", gameStep);
+    var gameData = component.get("v.gameData");
+    
     // Newer sprite-based titles, etc.
     if (gameStep === "intro") {
-      this.drawSpriteText(component, canvas, ctx, this.sprites[this.staticSpritesName], "title", null, 80);
-      this.drawSpriteText(component, canvas, ctx, this.sprites[this.staticSpritesName], "tapToStart", null, this.canvasHeight - 120);// 230);
+      this.drawSpriteText(component, canvas, ctx, gameData.sprites[gameData.staticSpritesName], "title", null, 80);
+      this.drawSpriteText(component, canvas, ctx, gameData.sprites[gameData.staticSpritesName], "tapToStart", null, gameData.canvasHeight - 120);// 230);
     } else if (gameStep === "end") {
-      this.drawSpriteText(component, canvas, ctx, this.sprites[this.staticSpritesName], "gameOver", null, null);
-      this.drawSpriteText(component, canvas, ctx, this.sprites[this.staticSpritesName], "tapToContinue", null, this.canvasHeight - 120);// 230);
+      this.drawSpriteText(component, canvas, ctx, gameData.sprites[gameData.staticSpritesName], "gameOver", null, null);
+      this.drawSpriteText(component, canvas, ctx, gameData.sprites[gameData.staticSpritesName], "tapToContinue", null, gameData.canvasHeight - 120);// 230);
     }
     
     if (gameStep !== "intro") {
@@ -1111,12 +975,12 @@
       // Score
       var textSize = 32;
       var margin = 10;
-      var x = this.canvasWidth / 2;
-      var midY = this.canvasHeight / 2;
+      var x = gameData.canvasWidth / 2;
+      var midY = gameData.canvasHeight / 2;
       
       var y = textSize + margin;
       
-      var text = this.score;
+      var text = gameData.score;
       ctx.fillStyle = "white";
       ctx.strokeStyle = "black";
       ctx.font = "bold " + textSize + "px 'Marker Felt'";
@@ -1129,13 +993,14 @@
   },
 
   drawGrid: function(component, canvas, ctx) {
+    var gameData = component.get("v.gameData");
     ctx.strokeStyle = "white";
     var y0 = 0;
-    var y1 = this.canvasHeight - 1;
-    var startX = this.gridSize - (this.gridPosition % this.gridSize);
-    startX -= this.gridSize;
-    var g = this.gamePosition;
-    for (var x = startX; x <= this.canvasWidth; x += this.gridSize) {
+    var y1 = gameData.canvasHeight - 1;
+    var startX = gameData.gridSize - (gameData.gridPosition % gameData.gridSize);
+    startX -= gameData.gridSize;
+    var g = gameData.gamePosition;
+    for (var x = startX; x <= gameData.canvasWidth; x += gameData.gridSize) {
       ctx.fillStyle = "black";
       ctx.font = "normal 12px Arial";
       ctx.fillText("" + g, x, y1 - 20);
@@ -1149,8 +1014,8 @@
     }
 
     var x0 = 0;
-    var x1 = this.canvasWidth - 1;
-    for (var y = this.gridSize; y <= this.canvasHeight; y += this.gridSize) {
+    var x1 = gameData.canvasWidth - 1;
+    for (var y = gameData.gridSize; y <= gameData.canvasHeight; y += gameData.gridSize) {
       ctx.beginPath();
       ctx.moveTo(x0, y);
       ctx.lineTo(x1, y);
@@ -1159,14 +1024,15 @@
 
     ctx.strokeStyle = "red";
     ctx.beginPath();
-    ctx.moveTo((this.canvasWidth / 2), 0);
-    ctx.lineTo((this.canvasWidth / 2), this.canvasHeight - 1);
-    ctx.moveTo(0, (this.canvasHeight / 2));
-    ctx.lineTo(this.canvasWidth - 1, (this.canvasHeight / 2));
+    ctx.moveTo((gameData.canvasWidth / 2), 0);
+    ctx.lineTo((gameData.canvasWidth / 2), gameData.canvasHeight - 1);
+    ctx.moveTo(0, (gameData.canvasHeight / 2));
+    ctx.lineTo(gameData.canvasWidth - 1, (gameData.canvasHeight / 2));
     ctx.stroke();
   },
 
   drawDebug: function(component, canvas, ctx) {
+    var gameData = component.get("v.gameData");
     ctx.save();
     ctx.globalAlpha = 0.75;
     ctx.beginPath();
@@ -1174,9 +1040,9 @@
     var padding = 4;
     var fontSize = 9;
     var lineHeight = fontSize + padding;
-    var x = this.canvasWidth - (this.debugSize.w + margin);
+    var x = gameData.canvasWidth - (gameData.debugSize.w + margin);
     var y = margin;
-    ctx.rect(x, y, this.debugSize.w, this.debugSize.h);
+    ctx.rect(x, y, gameData.debugSize.w, gameData.debugSize.h);
     ctx.fillStyle = 'white';
     ctx.fill();
     ctx.restore();
@@ -1184,35 +1050,36 @@
     ctx.fillStyle = "black";
     ctx.font = "normal " + fontSize + "px Lucida Console";
     ctx.textAlign = "left";
-    // var x = this.canvasWidth - 100;
+    // var x = gameData.canvasWidth - 100;
     x += padding;
     y += lineHeight;
     
-    ctx.fillText("gameStep: " + this.gameStep, x, y);
+    ctx.fillText("gameStep: " + gameData.gameStep, x, y);
     y += lineHeight;
     
-    for ( var n in this.debugInfo) {
-      ctx.fillText(n + ": " + this.debugInfo[n], x, y);
+    for ( var n in gameData.debugInfo) {
+      ctx.fillText(n + ": " + gameData.debugInfo[n], x, y);
       y += lineHeight;
     }
   },
 
   createColumns: function(component) {
-    this.columns = {};
+    var gameData = component.get("v.gameData");
+    gameData.columns = {};
     var max = {
-      x: this.canvasWidth / this.gridSize,
-      y: this.canvasHeight / this.gridSize
+      x: gameData.canvasWidth / gameData.gridSize,
+      y: gameData.canvasHeight / gameData.gridSize
     }
     console.warn("max: ", max);
     var lastY = Math.round(max.y / 2); // Math.floor(Math.random() * (max.y - 3)) + 1;
     var y = 0;
-    var startX = (this.canvasWidth / this.gridSize) / 1;
+    var startX = (gameData.canvasWidth / gameData.gridSize) / 1;
     console.warn("startX: ", startX);
     for (var x = startX; x < 3000; x += Math.round(Math.random() * 2) + 5) {
       y = lastY + (Math.round(Math.random() * 4) - 2);
       y = y <= 1 ? 2 : y;
       y = y >= max.y - 4 ? y - 4 : y;
-      this.columns[x] = y;
+      gameData.columns[x] = y;
       lastY = y;
     }
   },
@@ -1227,20 +1094,21 @@
   },
 
   handleKeypress: function(component, event) {
+    var gameData = component.get("v.gameData");
     var target = event.getSource ? event.getSource().getElement() : event.target;
     var keyCode = event.getKeyCode || event.getParam("keyCode");
     // console.warn("keyCode: ", keyCode, typeof keyCode);
-    var action = this.keyCodeActionMap[keyCode];
+    var action = gameData.keyCodeActionMap[keyCode];
     // console.warn("action: ", action);
     if (action) {
       this[action](component, event);
     }
-    this.debugInfo.keyCode = keyCode;
-    this.debugInfo.keyChar = this.keyMap[keyCode];
-    if (!this.debugInfo.keyChar) {
-      this.debugInfo.keyChar = String.fromCharCode(keyCode);
+    gameData.debugInfo.keyCode = keyCode;
+    gameData.debugInfo.keyChar = gameData.keyMap[keyCode];
+    if (!gameData.debugInfo.keyChar) {
+      gameData.debugInfo.keyChar = String.fromCharCode(keyCode);
     }
-    // console.warn("this.debugInfo.keyChar: ", this.debugInfo.keyChar, this.debugInfo.keyCode);
+    // console.warn("gameData.debugInfo.keyChar: ", gameData.debugInfo.keyChar, gameData.debugInfo.keyCode);
   },
 
   handleClick: function(component, event) {
@@ -1249,12 +1117,13 @@
 
   // Custom loader for flappy
   handleSpriteCommand: function(component, params) {
+    var gameData = component.get("v.gameData");
     console.warn("canvasScrollerHelper.handleSpriteCommand: ", params);
-    console.warn("this.flappySpriteName: ", this.flappySpriteName);
+    console.warn("gameData.flappySpriteName: ", gameData.flappySpriteName);
     if (params.command === "add") {
       var sprite = params.args;
       sprite.display = false;
-      this.sprites[sprite.name] = sprite;
+      gameData.sprites[sprite.name] = sprite;
     }
   },
 

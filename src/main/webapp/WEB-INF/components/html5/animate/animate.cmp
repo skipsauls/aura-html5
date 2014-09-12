@@ -1,0 +1,47 @@
+<aura:component>
+  <aura:attribute name="data" type="Object"/>
+  <aura:attribute name="timestamp" type="Integer" default="0" />
+  <aura:attribute name="angleMin" type="Integer" default="0" />
+  <aura:attribute name="angleMax" type="Integer" default="360" />
+  <aura:attribute name="angleVal" type="Integer" default="0" />
+  <aura:attribute name="angleStep" type="Integer" default="1" />
+  <aura:attribute name="scaleMin" type="Double" default="0.1" />
+  <aura:attribute name="scaleMax" type="Double" default="5.0" />
+  <aura:attribute name="scaleVal" type="Double" default="1.0" />
+  <aura:attribute name="scaleStep" type="Double" default="0.1" />
+  <aura:attribute name="image" type="String" description="Can be image data, a URL, or a id, e.g., #image"/>
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  
+  <div class="outer">
+    <div class="container">
+      <div class="row">
+        <div class="slider vertical">
+          <span>{!v.scaleMax}</span>
+          <input aura:id="scaleSlider" type="range" class="vertical" orient="vertical" min="{!v.scaleMin}" max="{!v.scaleMax}" step="{!v.scaleStep}"
+            value="{!v.scaleVal}" onchange="{!c.setScale}" />
+          <span>{!v.scaleMin}</span>
+        </div>
+
+        <canvas aura:id="canvas" width="240" height="240" />
+      </div>
+
+      <div class="row center">
+        <div class="slider horizontal">
+          <span>{!v.angleMin}</span>
+          <input aura:id="angleSlider" type="range" min="{!v.angleMin}" max="{!v.angleMax}" step="{!v.angleStep}" value="{!v.angleVal}" onchange="{!c.setAngle}" />
+          <span>{!v.angleMax}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <ui:outputText value="{!v.angleVal}"/>
+        <label>Rotate</label>
+        <input aura:id="toggleRotation" type="checkbox" onchange="{!c.toggleRotation}"/>
+        <label>Scale</label>
+        <input aura:id="toggleScaling" type="checkbox" onchange="{!c.toggleScaling}"/>
+        <button onclick="{!c.start}">Start</button>
+        <button onclick="{!c.stop}">Stop</button>
+      </div>
+    </div>
+  </div>
+</aura:component>

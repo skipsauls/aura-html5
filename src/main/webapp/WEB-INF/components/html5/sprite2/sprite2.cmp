@@ -1,0 +1,23 @@
+<aura:component>
+  <aura:attribute name="data" type="Object"/>
+  <aura:attribute name="id" type="String"/>
+  <aura:attribute name="name" type="String"/>
+  <aura:attribute name="type" type="String" default="animated"/>
+  <aura:attribute name="bounds" type="Object"/>
+  <aura:attribute name="imageURL" type="String"/>
+  <aura:attribute name="offsets" type="String"/>
+  <aura:attribute name="frames" type="Integer" default="0"/>  
+  <aura:attribute name="fps" type="Integer" default="0"/>
+  <aura:attribute name="frameIndex" type="Integer" default="0"/>
+  <aura:attribute name="positionX" type="Integer" default="0"/>
+  <aura:attribute name="positionY" type="Integer" default="0"/>
+  <aura:attribute name="speedX" type="Integer" default="1"/>
+  <aura:attribute name="speedY" type="Integer" default="1"/>
+  <aura:attribute name="scaleX" type="Integer" default="1"/>
+  <aura:attribute name="scaleY" type="Integer" default="1"/>
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <!-- 
+  <aura:handler event="html5:spriteCommand2" action="{!c.handleSpriteCommand}" />
+  -->  
+  ￼<aura:registerEvent name="spriteCommandFired" type="html5:spriteCommand"/>
+</aura:component>

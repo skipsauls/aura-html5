@@ -1,0 +1,31 @@
+<aura:component>
+  <aura:attribute name="data" type="Object"/>
+  <aura:attribute name="image" type="String"/>
+  <aura:attribute name="width" type="Integer" default="480"/>
+  <aura:attribute name="height" type="Integer" default="320"/>
+  <aura:attribute name="name" type="String"/>
+  <aura:attribute name="debug" type="Boolean" default="false"/>
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <aura:handler event="html5:spriteCommand" action="{!c.handleSpriteCommand}" />
+  <div class="outer">
+    <ul class="legend">
+      <li><span>0</span>De-select all</li>
+      <li><span>1..9</span>Select sprite</li>
+      <li><span>=</span>Scale up</li>
+      <li><span>-</span>Scale down</li>
+      <li><span>i</span>Move up</li>
+      <li><span>j</span>Move left</li>
+      <li><span>k</span>Move right</li>
+      <li><span>m</span>Move down</li>
+      <li><span>&lt;</span>Rotate left</li>
+      <li><span>&gt;</span>Rotate right</li>
+      <li><span>a</span>Toggle auto-move</li>
+    </ul>
+    <div aura:id="container" class="container" onkeydown="{!c.handleKeydown}" tabindex="0">
+      <canvas aura:id="canvas" width="{!v.width}" height="{!v.height}" />
+      <aura:if isTrue="{!v.debug == true}">
+        <canvas aura:id="debug_canvas" width="{!v.width}" height="{!v.height}" />
+      </aura:if>
+    </div>
+  </div>
+</aura:component>

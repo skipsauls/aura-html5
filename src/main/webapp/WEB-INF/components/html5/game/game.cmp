@@ -1,0 +1,45 @@
+<aura:component>
+  <aura:attribute name="data" type="Object"/>
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+  
+  <div class="outer">
+    <div class="container">
+      <html5:scroller
+        aura:id="saasy_game"
+        name="saasy_game"
+        image="/img/sf_skyline2_720x480.png"
+        scrollerCommandFired="{!c.handleScrollerCommand}"
+        width="360"
+        height="360"
+        >
+        <html5:sprite2 
+          aura:id="saasy"
+          name="saasy"
+          type="animated"
+          imageURL="/img/saasy_sprites_270x90.png"
+          frames="3"
+          fps="12"
+          positionX="120"
+          positionY="80"
+          spriteCommandFired="{!c.handleSpriteCommand}"
+        />
+        <html5:sprite2
+          aura:id="flappy"
+          name="flappy"
+          type="animated"
+          imageURL="/img/flappy_sprites_51x17.png"
+          positionX="20"
+          positionY="20"
+          frames="3"
+          fps="6"
+          scaleX="3"
+          scaleY="3"
+          speedX="4"
+          speedY="4"
+          spriteCommandFired="{!c.handleSpriteCommand}"
+        />  
+      </html5:scroller>  
+      </div>
+  </div>
+</aura:component>

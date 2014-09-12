@@ -1,5 +1,7 @@
 <aura:component>
+  <!--
   <aura:handler event="html5:spriteCommand" action="{!c.handleSpriteCommand}" />
+  -->
   <aura:attribute name="id" type="String"/>
   <aura:attribute name="name" type="String"/>
   <aura:attribute name="type" type="String" default="animated"/>
@@ -13,7 +15,8 @@
   <aura:attribute name="positionY" type="Integer" default="0"/>
   <aura:attribute name="speedX" type="Integer" default="1"/>
   <aura:attribute name="speedY" type="Integer" default="1"/>
-  <aura:attribute name="scaleX" type="Integer" default="1"/>
-  <aura:attribute name="scaleY" type="Integer" default="1"/>
+  <aura:attribute name="scaleX" type="Double" default="1"/>
+  <aura:attribute name="scaleY" type="Double" default="1"/>
+  <aura:attribute name="pin" type="Boolean" default="false" description="Pins the sprite to the background"/>
   <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 </aura:component>

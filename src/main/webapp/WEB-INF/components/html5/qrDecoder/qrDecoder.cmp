@@ -1,0 +1,4 @@
+<aura:component description="A list that responds to addImage events.">
+  <html5:requires initScripts="{!c.initScripts}"/>
+  <aura:handler event="html5:addImage" action="{!c.handleAddImage}" />
+</aura:component>
