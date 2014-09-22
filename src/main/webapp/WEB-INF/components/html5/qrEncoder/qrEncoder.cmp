@@ -1,0 +1,18 @@
+<aura:component description="A component that encodes strings as QR code images.">
+  <aura:attribute name="value" type="String" default="" />
+  <aura:attribute name="textValue" type="String" default="Lightning" />
+  <aura:attribute name="qrCode" type="Object" description="Holds reference to the QRCode instance." />
+  <html5:requires />
+  <aura:handler event="html5:requiresReady" action="{!c.initScripts}" />
+  <div class="outer">
+    <div class="controls">
+      <ui:inputText label="Encode:" value="{!v.textValue}" keyup="{!c.encode}" updateOn="keyup" />
+    </div>
+    <div class="container">
+      <div aura:id="output" src="{!v.qrCodeDataURL}" />
+    </div>
+    <div class="controls">
+      <ui:button label="Decode" press="{!c.fireDecode}" />
+    </div>
+  </div>
+</aura:component>

@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION" description="An event fired when a QR Code is decoded.">
+  <aura:attribute name="qrcode" type="String" description="The decoded QR Code." />
+</aura:event>

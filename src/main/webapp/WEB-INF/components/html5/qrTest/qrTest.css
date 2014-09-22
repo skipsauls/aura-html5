@@ -1,21 +1,25 @@
 .THIS {
-
+  
 }
 
 .THIS .left {
   float: left;
+  margin: 5px;
+  padding: 5px;
 }
 
 .THIS .right {
   float: left;
+  margin: 5px;
+  padding: 5px;
 }
 
 .THIS .row {
-  clear: both;  
+  clear: both;
 }
 
 .THIS .row div {
-
+  
 }
 
 .THIS h1 {

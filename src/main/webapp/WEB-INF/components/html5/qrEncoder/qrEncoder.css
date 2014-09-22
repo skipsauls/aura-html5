@@ -1,0 +1,15 @@
+.THIS.container {
+  display: inline-block;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.THIS.container.hidden {
+  display: none;
+}
+
+.THIS.container img {
+  width: 100%;
+  height: auto;
+}

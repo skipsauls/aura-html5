@@ -1,0 +1,7 @@
+<aura:component implements="html5:puzzle">
+  <ul>
+    <li>Name: <ui:outputText value="{!v.name}"/></li>
+    <li>Type: <ui:outputText value="{!v.type}"/></li>
+    <li>ID: <ui:outputText value="{!v.id}"/></li>
+  </ul>
+</aura:component>

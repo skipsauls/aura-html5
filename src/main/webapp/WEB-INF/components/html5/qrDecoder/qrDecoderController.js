@@ -1,11 +1,5 @@
 ({
-  doInit: function(component, event, helper) {
-
-  },
-  
   initScripts: function(component, event, helper) {
-    console.warn("qrCodeScannerController.initScripts");
-
     requirejs.config({
       baseUrl: "/resource/",
       paths: {
@@ -17,13 +11,20 @@
       "jsqrcode"
     ], function(_qr) {
       // Anything to do?
-      console.warn("loaded jsqrcode - _qr: ", _qr);
-
     });
   },
-  
+
   handleAddImage: function(component, event, helper) {
-    var photo = event.getParams();
-    helper.processImage(component, photo);
+    var params = event.getParams();
+    helper.processImage(component, params.dataURL);
+  },
+
+  handleDecodeImage: function(component, event, helper) {
+    var params = event.getParams();
+    helper.processImage(component, params.dataURL);
+  },
+
+  handleQRCodeDecoded: function(component, event, helper) {
+    // Do nothing
   }
 })

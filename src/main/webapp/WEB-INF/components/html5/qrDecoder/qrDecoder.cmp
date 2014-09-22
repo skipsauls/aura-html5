@@ -1,4 +1,11 @@
-<aura:component description="A list that responds to addImage events.">
-  <html5:requires initScripts="{!c.initScripts}"/>
+<aura:component description="A component that decodes QR codes and fires an event.">
+  <aura:attribute name="qrCode" type="String" />
+  <aura:attribute name="avg" type="Double" />
+  <aura:attribute name="time" type="Double" />
+  <html5:requires />
+  <aura:handler event="html5:requiresReady" action="{!c.initScripts}" />
   <aura:handler event="html5:addImage" action="{!c.handleAddImage}" />
+  <aura:handler event="html5:qrDecodeImage" action="{!c.handleDecodeImage}" />
+  <aura:handler event="html5:qrCodeDecoded" action="{!c.handleQRCodeDecoded}" />
+  <!-- No content -->
 </aura:component>

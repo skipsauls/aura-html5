@@ -1,4 +1,4 @@
-<aura:component template="html5:template">
+<aura:component>
   <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
   <aura:registerEvent name="addPicture" type="html5:addImage" />
   <aura:attribute name="addPictureLabel" type="String" default="Add Picture" />

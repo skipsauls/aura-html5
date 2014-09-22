@@ -1,0 +1,7 @@
+<aura:interface>
+  <aura:attribute name="id" type="String" description="The record id for the puzzle"/>
+  <aura:attribute name="name" type="String" description="The name of the puzzle"/>
+  <aura:attribute name="type" type="String" description="The type of puzzle (reveal, multiple choice, etc.)"/>
+  <aura:attribute name="assets" type="Map" description="The images, sounds, questions, etc. for the puzzle - type dependent"/>
+  <aura:attribute name="hasPromo" type="Boolean" description="Indicates that a promo is offered (code, ticket, etc.)"/>
+</aura:interface>

@@ -1,0 +1,13 @@
+<aura:component>
+  <aura:attribute name="data" type="Object"/>
+  <aura:attribute name="width" type="Integer" default="256"/>
+  <aura:attribute name="height" type="Integer" default="256"/>
+  <aura:attribute name="name" type="String"/>
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <div class="outer">
+    <div aura:id="container" class="container" tabindex="0">
+      <h1>Tapper</h1>
+      <canvas aura:id="canvas" width="{!v.width}" height="{!v.height}" />
+    </div>
+  </div>
+</aura:component>
