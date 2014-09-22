@@ -39,8 +39,7 @@
     }
 
     if (result) {
-      component.set("v.qrCode", result);
-      var evt = $A.get("e.aotp1:qrCodeDecoded");
+      var evt = $A.get("e.html5:qrCodeDecoded");
       if (evt) {
         evt.setParams({
           "qrcode": result
