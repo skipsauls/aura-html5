@@ -33,9 +33,7 @@
     // Need to make sure this is robust...
     var output = component.find("output").getElement();
     var img = output.getElementsByTagName("img")[0];
-    console.warn("img: ", img);
     var decodeImageEvent = $A.get("e.html5:qrDecodeImage");
-    console.warn("decodeImageEvent: ", decodeImageEvent);
     decodeImageEvent.setParams({
       dataURL: img.src
     }).fire();
