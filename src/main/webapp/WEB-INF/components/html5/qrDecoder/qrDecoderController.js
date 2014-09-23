@@ -1,17 +1,10 @@
 ({
   initScripts: function(component, event, helper) {
-    requirejs.config({
-      baseUrl: "/resource/",
-      paths: {
-        jsqrcode: "/resource/jsqrcode/jsqrcode"
-      }
-    });
+    helper.initScripts(component);
+  },
 
-    requirejs([
-      "jsqrcode"
-    ], function(_qr) {
-      // Anything to do?
-    });
+  init: function(component, event, helper) {
+    helper.initScripts(component);
   },
 
   handleAddImage: function(component, event, helper) {

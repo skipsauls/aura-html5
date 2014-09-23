@@ -1,20 +1,10 @@
 ({
   initScripts: function(component, event, helper) {
+    helper.initScripts(component);
+  },
 
-    requirejs.config({
-      baseUrl: "/resource/",
-      paths: {
-        qrcodejs: "/resource/qrcodejs/qrcode"
-      }
-    });
-
-    requirejs([
-      "qrcodejs"
-    ], function(_qr) {
-      // Encode the default value
-      var value = component.get("v.textValue");
-      helper.encode(component, value);
-    });
+  init: function(component, event, helper) {
+    helper.initScripts(component);
   },
 
   encode: function(component, event, helper) {

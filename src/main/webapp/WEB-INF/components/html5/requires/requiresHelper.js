@@ -1,6 +1,8 @@
 ({
-
-  ready: null,
+  fireRequiresReady: function(component) {
+    var evt = $A.get("e.html5:requiresReady");
+    evt.fire();
+  },
 
   setup: function(component, event, next) {
     var styles = component.get("v.styles");
@@ -12,19 +14,14 @@
       }
     }
 
-    // Load require.js
-    var self = this;
-    if (self.ready === true) {
-      next();
+    if (typeof requirejs !== "undefined") {
+      this.fireRequiresReady(component);
     } else {
-      if (typeof self.ready === "undefined") {
-        self.ready = false;
-        self.loadScript("requirejs", "/resource/require/require.min.js", function() {
-          self.ready = true;
-          var evt = $A.get("e.html5:requiresReady");
-          evt.fire();
-        });
-      }
+      // Load require.js
+      var self = this;
+      self.loadScript("requirejs", "/resource/require/require.min.js", function() {
+        self.fireRequiresReady(component);
+      });
     }
   },
 

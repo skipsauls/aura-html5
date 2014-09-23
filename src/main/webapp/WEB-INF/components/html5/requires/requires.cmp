@@ -1,6 +1,6 @@
 <aura:component>
   <aura:attribute name="styles" type="String[]" />
   <aura:attribute name="initScripts" type="Aura.Action" />
-  <aura:registerEvent name="aotp1:requiresReady" type="html5:requiresReady" />
+  <aura:registerEvent name="html5:requiresReady" type="html5:requiresReady" />
   <aura:handler name="init" value="{!this}" action="{!c.init}" />
 </aura:component>

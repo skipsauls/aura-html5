@@ -4,6 +4,7 @@
   <aura:attribute name="qrCode" type="Object" description="Holds reference to the QRCode instance." />
   <html5:requires />
   <aura:handler event="html5:requiresReady" action="{!c.initScripts}" />
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
   <div class="outer">
     <div class="controls">
       <ui:inputText label="Encode:" value="{!v.textValue}" keyup="{!c.encode}" updateOn="keyup" />

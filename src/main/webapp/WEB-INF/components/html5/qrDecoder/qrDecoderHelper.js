@@ -1,4 +1,24 @@
 ({
+  ready: false,
+
+  initScripts: function(component) {
+    if (this.ready === false && typeof requirejs !== "undefined") {
+      requirejs.config({
+        baseUrl: "/resource/",
+        paths: {
+          jsqrcode: "/resource/jsqrcode/jsqrcode"
+        }
+      });
+
+      requirejs([
+        "jsqrcode"
+      ], function(_qr) {
+        // Anything to do?
+        self.ready = true;
+      });
+    }
+  },
+
   process: function(component, img) {
 
     var canvas = document.createElement("canvas");
