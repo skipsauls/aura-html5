@@ -43,17 +43,17 @@
   },
 
   handleMouseDown: function(component, event, helper) {
-    console.warn("mouseDown " + Date.now());
+    //console.warn("mouseDown " + Date.now());
     //helper.handleClick(component, event);
   },
   
   handleMouseUp: function(component, event, helper) {
-    console.warn("mouseUp " + Date.now());
+    //console.warn("mouseUp " + Date.now());
     //helper.handleClick(component, event);
   },
 
   handleClick: function(component, event, helper) {
-    helper.handleClick(component, event);
+    //helper.handleClick(component, event);
   },
 
   moveRight: function(component, event, helper) {

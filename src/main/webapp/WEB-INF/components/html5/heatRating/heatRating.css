@@ -1,0 +1,26 @@
+.THIS.rating {
+  display: block;
+  padding: 8px;
+  border-radius: 5px;
+  color: #FFFFFF;
+  font-weight: bold;
+  background: linear-gradient(to right, blue, red);
+  margin: 8px;
+  padding: 4px 0px;
+}
+
+.THIS.rating.Cold {
+  text-align: left;
+}
+
+.THIS.rating.Warm {
+  text-align: center;
+}
+
+.THIS.rating.Hot {
+  text-align: right;
+}
+
+.THIS.rating .label {
+  position: relative;
+}

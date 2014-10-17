@@ -1,0 +1,10 @@
+<aura:component>
+    <aura:attribute name="label" type="String" default="" description="Label prefix to dislay on component"/>    
+    <aura:attribute name="min" type="Integer" default="1" description="Minimum value"/>
+    <aura:attribute name="max" type="Integer" default="100" description="Maximum value"/>
+    <aura:attribute name="step" type="Integer" default="1" description="Slider step"/>
+    <aura:attribute name="value" type="Integer" default="50" description="Current value"/>
+    <div aura:id="container" class="{!'rating ' + v.value}">
+      <ui:outputText aura:id="label" class="label" value="{!v.label}"/>
+    </div>
+</aura:component>
