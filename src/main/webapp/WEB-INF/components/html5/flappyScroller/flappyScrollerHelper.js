@@ -242,15 +242,11 @@
       gameData.actionKeyCodeMap[action] = keyCode;
     }
 
-    console.warn("gameData.actionKeyCodeMap: ", gameData.actionKeyCodeMap);
-
     // Generate keyCodeActionMap - Need to check for collisions!
     gameData.keyCodeActionMap = {};
     for ( var action in gameData.actionKeyCodeMap) {
       gameData.keyCodeActionMap[gameData.actionKeyCodeMap[action]] = action;
     }
-
-    console.warn("gameData.keyCodeActionMap: ", gameData.keyCodeActionMap);
   },
 
   setup: function(component, event) {
@@ -302,21 +298,12 @@
     imageMap["scrollImg"].onload = function() {
       gameData.imgWidth = imageMap["scrollImg"].width;
       gameData.imgHeight = imageMap["scrollImg"].height;
-      console.warn("gameData.canvasWidth: ", gameData.canvasWidth);
-      console.warn("gameData.canvasHeight: ", gameData.canvasHeight);
-      console.warn("gameData.imgWidth: ", gameData.imgWidth);
-      console.warn("gameData.imgHeight: ", gameData.imgHeight);
-      console.warn("gameData.fieldSize: ", gameData.fieldSize);
 
       gameData.imgRatio = gameData.fieldSize.h / gameData.imgHeight;
-      console.warn("gameData.imgRatio: ", gameData.imgRatio);
       gameData.speed = 1 / gameData.imgRatio;
 
       gameData.gridOffset = ((gameData.canvasWidth / gameData.gridSize) / 2);
       gameData.gamePosition = -gameData.gridOffset;
-
-      console.warn("gridOffset: ", gameData.gridOffset);
-      console.warn("sprites: ", gameData.sprites);
 
       // Turn on flappy
       gameData.sprites[gameData.flappySpriteName].display = true;
@@ -390,14 +377,12 @@
   },
 
   endGame: function(component, canvas, ctx) {
-    console.warn("endGame");
     var gameData = component.get("v.gameData");
     component.setValue("v.gameStep", "ending");
     gameData.gamePosition -= 1;
   },
 
   gameOver: function(component, canvas, ctx) {
-    console.warn("gameOver");
     var gameData = component.get("v.gameData");
     component.setValue("v.gameStep", "end");
     window.cancelAnimationFrame(gameData.animationFrame);
@@ -1112,11 +1097,9 @@
       x: gameData.canvasWidth / gameData.gridSize,
       y: gameData.canvasHeight / gameData.gridSize
     }
-    console.warn("max: ", max);
     var lastY = Math.round(max.y / 2); // Math.floor(Math.random() * (max.y - 3)) + 1;
     var y = 0;
     var startX = (gameData.canvasWidth / gameData.gridSize) / 1;
-    console.warn("startX: ", startX);
     for (var x = startX; x < 3000; x += Math.round(Math.random() * 2) + 5) {
       y = lastY + (Math.round(Math.random() * 4) - 2);
       y = y <= 1 ? 2 : y;
@@ -1159,8 +1142,6 @@
   // Custom loader for flappy
   handleSpriteCommand: function(component, params) {
     var gameData = component.get("v.gameData");
-    console.warn("canvasScrollerHelper.handleSpriteCommand: ", params);
-    console.warn("gameData.flappySpriteName: ", gameData.flappySpriteName);
     if (params.command === "add") {
       var sprite = params.args;
       sprite.display = false;
@@ -1198,10 +1179,6 @@
   },
 
   handleMouseMove: function(component, canvas, event) {
-    console.warn("handleMouseMove");
     var pos = this.getMousePos(canvas, event);
-    console.warn("pos: ", pos);
-    // foo = component;
-    bar = event;
   }
 });
