@@ -90,7 +90,7 @@
       e.preventDefault();
       e.stopImmediatePropagation();
       //self.touchStart(component, e);
-      handle.handleClick(component, e);
+      helper.handleClick(component, e);
     }, false);
     container.addEventListener("touchmove", function(e) {
       e.preventDefault();

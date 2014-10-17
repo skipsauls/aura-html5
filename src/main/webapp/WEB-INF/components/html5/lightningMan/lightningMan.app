@@ -49,6 +49,8 @@
     imageURL="/img/lightning_man_sprites_270x90.png"
     frames="3"
     fps="6"
+    scaleX="1"
+    scaleY="1"    
   />
 
   <html5:sprite
