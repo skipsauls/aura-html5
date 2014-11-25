@@ -1,0 +1,3 @@
+<aura:application>
+To run an execution time test on this page, run the profiler from your browser's developer tools and measure the running time of a page refresh. (Lower is better)  
+</aura:application>

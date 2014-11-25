@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="css/bootstrap.css" rel="stylesheet" />
 </head>
 <body>
   <button id="foo" class="btn">Button</button>
@@ -19,25 +18,91 @@
       </div>
     </div>
   </div>
-  
-  <script src="js/jquery.js" type="text/javascript"></script>
-  <script src="js/bootstrap.js" type="text/javascript"></script>
+  <script src="auraFW/javascript/Pgq5MPOlkxbigXzNK4_NHA/aura_dev.js" type="text/javascript"></script>
   <script type="text/javascript">
+      console.warn("hey 1");
+      var initConfig = {
+        context: {            
+        },
+        mode: "DEV",
+        requestedLocales: ["en_US", "en"],
+        deftype: "APPLICATION",
+        descriptor: "markup://html5:cmpA",
+        host: ""
+      };
+      
+     	$A.initAsync(initConfig);
+     
+      (function($A) {
+        console.warn("$A: ", $A);
+        
+/*        
+        var initConfig = {
+          context: {            
+          },
+          mode: "DEV",
+          requestedLocales: ["en_US", "en"],
+          deftype: "APPLICATION",
+          descriptor: "markup://html",
+          host: ""
+        };
+        
+         $A.initAsync(initConfig);
+*/         
+         
+        var config = {
+          componentDef : "markup://ui:button",
+          attributes : {
+            values : {
+              label: "Button " + Date.now()
+            }
+          }
+        };
+        
+        console.warn("config: ", config);
+
+        var cmp = $A.componentService.newComponentDeprecated(config);
+        foo = cmp;
+        console.warn("cmp: ", cmp);
+        
+        document.body.appendChild(cmp.getElement());
+/*
+        $A.componentService.newComponentAsync(this, function(element) {
+          console.warn("element: ", element);
+          //
+          // NOTE - Change getValue to get for newer versions of Aura!
+          //
+          //var body = target.getValue("v.body");
+          //body.push(element);
+          
+        }, config);
+*/        
+        console.warn("hey 2");
+        
+      })($A);
+    
+	</script>
+ <!-- 
+  <script
+    src="l/%7B%22mode%22%3A%22DEV%22%2C%22app%22%3A%22html5%3Ahtml5%22%2C%22requestedLocales%22%3A%5B%22en_US%22%2C%22en%22%5D%2C%22loaded%22%3A%7B%22APPLICATION%40markup%3A%2F%2Fhtml5%3Ahtml5%22%3A%226dUfdfhNnFukJ4bRSKfjYw%22%7D%2C%22lastmod%22%3A%221413579671000%22%2C%22fwuid%22%3A%22Pgq5MPOlkxbigXzNK4_NHA%22%7D/app.js"
+    type="text/javascript"
+  />
+  -->
+  <script type="text/javascript">
+      console.warn("hey");
+      (function($A) {
+        console.warn("$A: ", $A);
+      })($A);
+      (function(doc) {
+        console.warn("doc: ", doc);
+      })(document);
+      (function(win) {
+        console.warn("win: ", win);
+      })(window);
       console.warn("sneech");
       (function() {
         console.log("ready 1!");
       })();
-      $(function() {
-        console.log("ready!");
-        $("button#foo").on("click", function() {
-          console.warn("button#foo onclick");
-          $("div.test").modal();
-        });
-        $("button#bar").on("click", function() {
-          console.warn("button#bar onclick");
-          $("div.alert").alert();
-        });
-      });
     </script>
 </body>
 </html>

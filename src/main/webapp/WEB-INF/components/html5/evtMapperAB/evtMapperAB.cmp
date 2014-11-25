@@ -1,0 +1,4 @@
+<aura:component>
+  <aura:handler event="html5:evtA" action="{!c.handleEvtA}" />
+  <aura:handler event="html5:evtB" action="{!c.handleEvtB}" />
+</aura:component>

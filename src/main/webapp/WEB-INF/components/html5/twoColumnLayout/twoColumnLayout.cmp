@@ -1,0 +1,16 @@
+<aura:component implements="html5:region">
+  <aura:attribute name="left" type="Aura.Component[]"/>
+  <aura:attribute name="right" type="Aura.Component[]"/>
+  <div aura:id="container" class="container">
+    <div class="controls">
+      <ui:button label="Load Left" press="{!c.testLoadLeft}"/>
+      <ui:button label="Load Right" press="{!c.testLoadRight}"/>
+    </div>  
+    <div class="left">
+      {!v.left}
+    </div>
+    <div class="right">
+      {!v.right}    
+    </div>
+  </div>
+</aura:component>

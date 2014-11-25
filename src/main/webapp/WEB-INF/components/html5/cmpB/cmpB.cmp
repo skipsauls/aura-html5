@@ -1,0 +1,9 @@
+<aura:component>
+  <aura:attribute name="label" type="String" default="cmpB"/>
+  <aura:attribute name="xVal" type="Double" default="0.0"/>
+  <aura:attribute name="yVal" type="Double" default="0.0"/>
+  <ui:inputText label="Label" value="{!v.label}" change="{!c.handleChange}"/>
+  <ui:inputText label="X" value="{!v.xVal}" change="{!c.handleChange}"/>
+  <ui:inputText label="Y" value="{!v.yVal}" change="{!c.handleChange}"/>
+  <aura:handler event="html5:evtB" action="{!c.handleEvtB}" />
+</aura:component>

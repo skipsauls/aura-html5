@@ -1,0 +1,11 @@
+<aura:component>
+  <aura:attribute name="items" type="Object[]" />
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+  <p>To run an execution time test on this page, run the profiler from your browser's developer tools and measure the running time of a page refresh. (Lower is
+    better)</p>
+  <div id="container">
+    <aura:iteration items="{!v.items}" var="item">
+      <ui:inputText value="{!item.name}" />
+    </aura:iteration>
+  </div>
+</aura:component>

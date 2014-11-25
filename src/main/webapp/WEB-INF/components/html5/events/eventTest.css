@@ -1,0 +1,117 @@
+.THIS.main {
+    margin: 0px auto;
+    padding: 5px;
+    width: 100%;
+}
+
+.THIS .left {
+    float: left;
+    width: 50%;
+}
+
+.THIS .right {
+    float: left;    
+    width: 50%;
+}
+
+.THIS .container {
+    margin: 4px;
+    padding: 4px;
+}
+
+.THIS table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.THIS table, .THIS th, .THIS td {
+    border: 1px solid black;
+}
+
+.THIS th, .THIS td {
+    padding: 1px 2px;
+}
+
+.THIS td.required {
+    background-color: #FF0000;
+}
+
+.THIS th {
+    background-color: #A0A0A0;
+    color: #FFFFFF;
+}
+
+.THIS th#name {
+    width: 40%;
+}
+
+.THIS th#type {
+    width: 20%;
+}
+
+.THIS th#value {
+    width: 40%;
+}
+
+.THIS td input {
+    width: 98%;
+}
+
+.THIS pre.sample-code {
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    padding: 4px;
+    margin: 0;
+    width: auto;
+    min-height: 200px;
+}
+
+.THIS .fire {
+    width: 100%;
+}
+
+.THIS ul.tabs {
+  	list-style: none;
+    position: relative;
+    z-index: 2;
+    top: 1px;
+    display: inline-table;
+    width: 100%;
+    background: transparent;
+    padding: 0;
+    margin: 4px 0 0 0;
+}
+
+.THIS ul.tabs li.tab {
+	float: left;
+    padding: 4px;
+    margin: 0;
+    background: #C0C0C0;
+    color: #000000;
+    border: 1px solid #C0C0C0;
+    border-bottom: none;
+    cursor: pointer;
+}
+
+.THIS ul.tabs li.tab.current {
+    background: #FFFFFF;
+}
+
+.THIS .tab-content {
+    display: none;
+}
+
+.THIS .tab-content.current {
+    display: block;
+}
+
+.THIS .copy-to-clipboard {
+    float: right;
+    font-size: 8pt;
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    margin: 1px;
+    padding: 1px;
+    position: relative;
+}

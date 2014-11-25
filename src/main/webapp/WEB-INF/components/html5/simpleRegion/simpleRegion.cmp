@@ -1,0 +1,13 @@
+<aura:component implements="html5:region">
+  <aura:attribute name="header" type="Aura.Component[]" />
+  <div class="container">
+    <ui:button label="{!'Add Header ' + v.name || ''}" press="{!c.testAddToHeader}" />
+    <ui:button label="{!'Add Main ' + v.name || ''}" press="{!c.testAddToMain}" />
+    <div aura:id="header" class="header">
+      {!v.header}
+    </div>
+    <div aura:id="main" class="main">
+      {!v.body}
+    </div>
+  </div>
+</aura:component>

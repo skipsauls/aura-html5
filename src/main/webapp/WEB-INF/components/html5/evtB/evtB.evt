@@ -1,0 +1,5 @@
+<aura:event type="APPLICATION">
+	<aura:attribute name="label" type="String" description="Sets the label attribute."/>
+	<aura:attribute name="xVal" type="Double" description="Sets the x attribute."/>
+	<aura:attribute name="yVal" type="Double" description="Sets the y attribute."/>
+</aura:event>

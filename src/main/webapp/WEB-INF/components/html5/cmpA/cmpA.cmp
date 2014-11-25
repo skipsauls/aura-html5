@@ -1,0 +1,7 @@
+<aura:component>
+  <aura:attribute name="name" type="String" default="cmpA"/>
+  <aura:attribute name="value" type="Long" default="100"/>
+  <ui:inputText label="Name" value="{!v.name}" change="{!c.handleChange}"/>
+  <ui:inputText label="Value" value="{!v.value}" change="{!c.handleChange}"/>
+  <aura:handler event="html5:evtA" action="{!c.handleEvtA}" />
+</aura:component>

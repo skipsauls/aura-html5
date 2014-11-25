@@ -1,0 +1,5 @@
+<aura:component>
+  <aura:attribute name="name" type="String" description="Name of the param" required="true"/>
+  <aura:attribute name="value" type="Object" description="Value of the param" required="true"/>
+  <aura:attribute name="type" type="String" description="Type of the param" default="String"/>
+</aura:component>

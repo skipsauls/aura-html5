@@ -1,0 +1,7 @@
+<aura:component>
+  <aura:attribute name="name" type="String" description="Name of the function"/>
+  <aura:attribute name="action" type="Aura.Action" description="Action to call"/>
+  ￼<aura:registerEvent name="actionResult" type="html5:actionResult"/>
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  {!v.body}
+</aura:component>

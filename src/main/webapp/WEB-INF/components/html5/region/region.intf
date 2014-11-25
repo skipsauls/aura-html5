@@ -1,0 +1,3 @@
+<aura:interface description="Interface for regions. Marker with optional name.">
+	<aura:attribute name="name" type="String" description="Context-specific name for the region (top, bottom, col1, col2, etc.)"/>
+</aura:interface>

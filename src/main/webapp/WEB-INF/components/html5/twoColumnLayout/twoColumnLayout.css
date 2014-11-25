@@ -1,0 +1,25 @@
+.THIS {
+  
+}
+
+.THIS.container {
+  outline: 1px solid red;
+  min-width: 20px;
+  min-height: 20px;
+}
+
+.THIS.container .left {
+  outline: 1px solid green;
+  min-width: 20px;
+  min-height: 20px;
+  width: 30%;
+  display: inline-flex; 
+}
+
+.THIS.container .right {
+  outline: 1px solid blue;
+  min-width: 20px;
+  min-height: 20px;
+  width: 70%;
+  display: inline-flex;   
+}

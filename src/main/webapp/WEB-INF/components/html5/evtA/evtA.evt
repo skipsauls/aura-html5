@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION">
+	<aura:attribute name="name" type="String" description="The name of the thing." required="true"/>
+	<aura:attribute name="value" type="Long" description="The value of the thing." required ="true"/>
+</aura:event>

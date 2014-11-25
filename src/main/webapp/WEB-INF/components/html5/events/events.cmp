@@ -1,0 +1,19 @@
+<aura:component>
+  <aura:attribute name="value" type="String" default="Test"/>
+  <aura:attribute name="index" type="Integer" default="0"/>
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+  <aura:handler name="change" value="{!v.value}" action="{!c.handleValueChange}" />
+  <aura:handler name="change" value="{!v.index}" action="{!c.handleValueChange}" />
+
+  <div>
+    <ui:button label="Change Value" press="{!c.doChangeValue}" />
+    <ui:button label="Increment" press="{!c.doIncrement}" />
+    <ui:button label="Fire Change Value" press="{!c.doFireChangeValue}" />
+  </div>
+  <div>
+    Value: <ui:outputText value="{!v.value}"/>
+  </div>
+  <div>
+    Index: <ui:outputText value="{!v.index}"/>
+  </div>
+</aura:component>

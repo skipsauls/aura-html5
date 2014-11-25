@@ -1,0 +1,17 @@
+.THIS {
+  
+}
+
+.THIS .regions {
+  border: 1px solid red;
+  min-width: 20px;
+  min-height: 20px;
+  padding: 5px;
+}
+
+.THIS .region {
+  border: 1px solid green;
+  min-width: 20px;
+  min-height: 20px;
+  padding: 5px;
+}

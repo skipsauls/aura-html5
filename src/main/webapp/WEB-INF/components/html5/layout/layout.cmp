@@ -1,0 +1,10 @@
+<aura:component implements="html5:region">
+  <aura:attribute name="regions" type="Aura.Component[]"/>
+  <div class="container">
+    <div class="controls">
+      <ui:button label="Load Region" press="{!c.testLoadRegions}"/>
+    </div>
+    <div aura:id="regions" class="regions">
+    </div>
+  </div>
+</aura:component>
