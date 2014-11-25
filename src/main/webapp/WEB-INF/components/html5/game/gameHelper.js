@@ -2,7 +2,7 @@
   init: function(component, event) {
     console.warn("gameHelper.init");
     var data = component.get("v.data") || {};
-    component.setValue("v.data", data);
+    component.set("v.data", data);
   },
 
   handleScrollerCommand: function(component, event) {

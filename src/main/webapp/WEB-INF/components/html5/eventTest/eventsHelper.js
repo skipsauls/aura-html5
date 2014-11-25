@@ -65,14 +65,14 @@
             option.value = descriptor.getQualifiedName();
             select.appendChild(option);
         }
-        component.setValue("v.eventDefsMap", eventDefsMap);
+        component.set("v.eventDefsMap", eventDefsMap);
         
     },
     
     selectEventDef: function(component, qualifiedName) {
-        component.setValue("v.selectedEvent", qualifiedName);
+        component.set("v.selectedEvent", qualifiedName);
         
-        var eventDefsMap = component.getValue("v.eventDefsMap").value;
+        var eventDefsMap = component.get("v.eventDefsMap").value;
         var eventDef = eventDefsMap[qualifiedName.toLowerCase()] || eventDefsMap[qualifiedName];;
         var attributeDefs = eventDef.getAttributeDefs();
         var attributes = [];
@@ -85,7 +85,7 @@
             attribute.value = null;
             attributes.push(attribute);
         }
-        component.setValue("v.eventAttributes", attributes);
+        component.set("v.eventAttributes", attributes);
         return;
         var attributeDef = null;
         for (var name in attributeDefs) {
@@ -162,7 +162,7 @@
           sampleFireEventCode += 'evt.setParams(' + prettyParams + ');\n';
         }
         sampleFireEventCode += 'evt.fire();\n'        
-        component.setValue("v.sampleFireEventCode", sampleFireEventCode);
+        component.set("v.sampleFireEventCode", sampleFireEventCode);
         
         // Generate the handle event code
         var sampleHandleEventCode = '';
@@ -179,7 +179,7 @@
         sampleHandleEventCode += '    // Do something with the parameters...\n';
         sampleHandleEventCode += '}\n';
 
-        component.setValue("v.sampleHandleEventCode", sampleHandleEventCode);
+        component.set("v.sampleHandleEventCode", sampleHandleEventCode);
          
     },
     

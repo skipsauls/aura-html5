@@ -2,7 +2,7 @@
   init: function(component, event) {
     console.warn("scrollerHelper.init");
     var data = component.get("v.data") || {};
-    component.setValue("v.data", data);
+    component.set("v.data", data);
     this.setupAnimationFrame();
     this.setupImage(component);
     var container = component.find("container");

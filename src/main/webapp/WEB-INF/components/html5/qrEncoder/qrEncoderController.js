@@ -15,7 +15,7 @@
       qrCode.makeCode(textValue);
     } else {
       qrCode = new QRCode(output.getElement(), textValue);
-      component.setValue("v.qrCode", qrCode);
+      component.set("v.qrCode", qrCode);
     }
   },
 

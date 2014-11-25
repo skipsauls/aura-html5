@@ -28,7 +28,7 @@
     console.warn("valueB: ", valueB, typeof valueB);
     fireAddValues(valueA, valueB, function(result) {
       console.warn("result: ", result);
-      component.setValue("v.result", result);
+      component.set("v.result", result);
     });
   }
   

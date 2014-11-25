@@ -34,7 +34,7 @@
       }
     };
     
-    component.setValue("v.data", data);
+    component.set("v.data", data);
     
     var sprite = data;
     var imgURL = component.get("v.imageURL");

@@ -1,4 +1,4 @@
-package org.demo.html5;
+package org.demo;
 
 import junit.framework.TestCase;
 

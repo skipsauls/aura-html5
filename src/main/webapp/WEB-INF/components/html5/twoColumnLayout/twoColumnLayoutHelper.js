@@ -3,7 +3,7 @@
     $A.componentService.newComponentAsync(this, function(element) {
       console.warn("element: ", element);
       //
-      // NOTE - Change getValue to get for newer versions of Aura!
+      // NOTE - Change get to get for newer versions of Aura!
       //
       facet.push(element);
     }, config);
@@ -38,7 +38,7 @@
   
   
   testLoadRegion: function(component, region) {
-    var facet = component.getValue("v." + region);
+    var facet = component.get("v." + region);
     this.addRegion(component, facet, "test");
   }
 

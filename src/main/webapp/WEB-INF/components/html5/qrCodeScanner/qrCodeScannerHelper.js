@@ -55,9 +55,9 @@
     }
     console.warn("----> result: ", result);
     if (result) {
-      component.setValue("v.code", result);
+      component.set("v.code", result);
     } else {
-      component.setValue("v.code", "N/A");
+      component.set("v.code", "N/A");
     }
   },
   

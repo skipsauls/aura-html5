@@ -30,7 +30,7 @@
     if (!qrCode) {
       var output = component.find("output");
       qrCode = new QRCode(output.getElement(), value);
-      component.setValue("v.qrCode", qrCode);
+      component.set("v.qrCode", qrCode);
     }
     qrCode.makeCode(value);
   }

@@ -2,7 +2,7 @@
   init: function(component, event) {
     console.warn("animateHelper.init");
     var data = component.get("v.data") || {};
-    component.setValue("v.data", data);
+    component.set("v.data", data);
     
     this.setupAnimationFrame();
     this.setupImage(component);
@@ -116,10 +116,10 @@
     }
     
     //console.log(now, data.frameStats.fps, scale, angle);
-    component.setValue("v.timestamp", now);
+    component.set("v.timestamp", now);
     
-    component.setValue("v.angleVal", angle);
-    component.setValue("v.scaleVal", scale);
+    component.set("v.angleVal", angle);
+    component.set("v.scaleVal", scale);
     
     data.ctx.clearRect(0, 0, data.canvas.width, data.canvas.height);
     //this.drawBox(data);

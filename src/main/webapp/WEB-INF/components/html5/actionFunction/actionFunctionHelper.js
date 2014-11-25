@@ -7,8 +7,8 @@
       cmp = body[i];
       if (cmp.isInstanceOf("html5:actionParam")) {
         // TODO - Type checking & casting/coercing!
-        console.warn(cmp.getValue("v.name") + " param type " + typeof cmp.get("v.value"));
-        console.warn(cmp.getValue("v.name") + " args type " + typeof args[i]);
+        console.warn(cmp.get("v.name") + " param type " + typeof cmp.get("v.value"));
+        console.warn(cmp.get("v.name") + " args type " + typeof args[i]);
         params[cmp.get("v.name")] = "" + (typeof args[i] !== "undefined" ? args[i] : cmp.get("v.value"));
       }
     }

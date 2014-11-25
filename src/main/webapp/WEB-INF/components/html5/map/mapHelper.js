@@ -113,7 +113,7 @@
     var map = new google.maps.Map(mapEl, mapOptions);
     
     // Keep track of the map
-    component.setValue("v.map", map);
+    component.set("v.map", map);
 
     console.warn("component.get(\"v.currentMarker\"): ", component.get("v.currentMarker"));
     
@@ -126,8 +126,8 @@
     if (navigator.geolocation) {
       var self = this;
       navigator.geolocation.getCurrentPosition(function(pos) {
-        component.setValue("v.latitude", pos.coords.latitude);
-        component.setValue("v.longitude", pos.coords.longitude);
+        component.set("v.latitude", pos.coords.latitude);
+        component.set("v.longitude", pos.coords.longitude);
         self.addMarker(component, pos.coords, "Current Location");
       });
     }

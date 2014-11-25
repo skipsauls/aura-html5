@@ -4,7 +4,7 @@
   doSetup: function(component, event, helper) {
     
     
-    component.setValue("v.test", {foo:"bar"});
+    component.set("v.test", {foo:"bar"});
     
     helper.doSetup(component, event);
 

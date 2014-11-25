@@ -9,13 +9,13 @@
 
   doChangeValue: function(component, event, helper) {
     console.warn("doChangeValue");
-    component.setValue("v.value", Date.now());
+    component.set("v.value", Date.now());
   },
 
   doIncrement: function(component, event, helper) {
     console.warn("doIncrement");
     var index = component.get("v.index");
-    component.setValue("v.index", ++index);
+    component.set("v.index", ++index);
   },
 
   doFireChangeValue: function(component, event, helper) {

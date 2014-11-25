@@ -11,7 +11,7 @@
     } else {
       helper.startAnimation(component);
     }
-    component.setValue("v.running", !running);
+    component.set("v.running", !running);
   },
   
   addSprites: function(component, event, helper) {

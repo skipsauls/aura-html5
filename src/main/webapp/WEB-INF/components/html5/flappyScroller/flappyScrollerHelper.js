@@ -112,7 +112,7 @@
   init: function(component, event) {
 
     var gameData = this.setupGameData();
-    component.setValue("v.gameData", gameData);
+    component.set("v.gameData", gameData);
 
     this.setupAnimationFrame();
     this.setupKeyCodeActionMap(component);
@@ -169,23 +169,23 @@
 
   toggleControls: function(component, event) {
     var showControls = !component.get("v.showControls");
-    component.setValue("v.showControls", showControls);
+    component.set("v.showControls", showControls);
   },
 
   toggleGrid: function(component, event) {
     var showGrid = !component.get("v.showGrid");
-    component.setValue("v.showGrid", showGrid);
+    component.set("v.showGrid", showGrid);
   },
 
   toggleDebug: function(component, args) {
     var showDebug = !component.get("v.showDebug");
-    component.setValue("v.showDebug", showDebug);
+    component.set("v.showDebug", showDebug);
   },
 
   toggleMode: function(component, args) {
     var mode = component.get("v.mode");
     mode = mode === "game" ? "debug" : "game";
-    component.setValue("v.mode", mode);
+    component.set("v.mode", mode);
     gameData.debugInfo.mode = mode;
   },
 
@@ -196,7 +196,7 @@
     } else {
       this.startGame(component);
     }
-    component.setValue("v.running", !running);
+    component.set("v.running", !running);
   },
 
   // Adapted from:
@@ -266,7 +266,7 @@
 
     var imageMap = component.get("v.imageMap");
     imageMap = imageMap || {};
-    component.setValue("v.imageMap", imageMap);
+    component.set("v.imageMap", imageMap);
 
     var canvas = component.find("canvas").getElement();
     var ctx = canvas.getContext("2d");
@@ -346,7 +346,7 @@
     var gameData = component.get("v.gameData");
     gameData.gamePosition = 0;
     gameData.score = 0;
-    component.setValue("v.gameStep", "intro");
+    component.set("v.gameStep", "intro");
   },
 
   playIntro: function(component, event) {
@@ -357,14 +357,14 @@
     sprite.bounds.y = midY;
     sprite.dest.y = midY - gameData.gridSize * 1;
     this.startAnimation(component);
-    component.setValue("v.showControls", false);
+    component.set("v.showControls", false);
   },
 
   startGame: function(component, event) {
     var gameData = component.get("v.gameData");
     gameData.gridSize = component.get("v.gridSize"); // 32;
     gameData.gamePosition = 0;// -8;
-    component.setValue("v.gameStep", "game");
+    component.set("v.gameStep", "game");
     gameData._collisions = {};
     gameData.score = 0;
 
@@ -373,18 +373,18 @@
     sprite.bounds.y = midY;
     sprite.dest.y = midY - gameData.gridSize * 1;
 
-    component.setValue("v.showControls", false);
+    component.set("v.showControls", false);
   },
 
   endGame: function(component, canvas, ctx) {
     var gameData = component.get("v.gameData");
-    component.setValue("v.gameStep", "ending");
+    component.set("v.gameStep", "ending");
     gameData.gamePosition -= 1;
   },
 
   gameOver: function(component, canvas, ctx) {
     var gameData = component.get("v.gameData");
-    component.setValue("v.gameStep", "end");
+    component.set("v.gameStep", "end");
     window.cancelAnimationFrame(gameData.animationFrame);
   },
 
@@ -815,7 +815,7 @@
       return;
     } else if (gameStep === "intro") {
       // If the intro is showing, start the game
-      component.setValue("v.gameStep", "game");
+      component.set("v.gameStep", "game");
       this.startGame(component, event);
       return;
     }
@@ -926,7 +926,7 @@
           sprite.speed.y = sprite.speed.y > 3 ? 3 : sprite.speed.y;
           sprite.speed.y += sprite.speed.y < 3 ? 0.05 : 0;
         } else {
-          component.setValue("v.gameStep", "end");
+          component.set("v.gameStep", "end");
           this.playSound("gameOver");
           this.gameOver(component, canvas, ctx);
         }

@@ -6,7 +6,7 @@
      *  that is being used as a proxy for the input element.
      */
     var cameraId = "camera" + Date.now();
-    component.setValue("v.cameraId", cameraId);
+    component.set("v.cameraId", cameraId);
 
     /*
      * Check for WebRTC support
@@ -17,7 +17,7 @@
       navigator.mozGetUserMedia ||
       navigator.msGetUserMedia);    
 
-    component.setValue("v.webRTC", typeof navigator.getUserMedia !== "undefined");
+    component.set("v.webRTC", typeof navigator.getUserMedia !== "undefined");
   },
   
   foo: function(component, event, helper) {

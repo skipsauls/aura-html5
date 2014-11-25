@@ -3,9 +3,9 @@
     $A.componentService.newComponentAsync(this, function(element) {
       console.warn("element: ", element);
       //
-      // NOTE - Change getValue to get for newer versions of Aura!
+      // NOTE - Change get to get for newer versions of Aura!
       //
-      var body = target.getValue("v.body");
+      var body = target.get("v.body");
       body.push(element);
       
     }, config);
